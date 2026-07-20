@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-iesniegums VSAA pakalpojumiem – Latvija.lv</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a1a; background: #fff; }
+
+/* TOPBAR */
+.topbar { background: #fff; border-bottom: 1px solid #d5d5d5; display: flex; align-items: stretch; height: 58px; }
+.tb-logo { display: flex; align-items: center; padding: 0 22px 0 20px; border-right: 1px solid #d5d5d5; font-size: 23px; font-weight: 700; color: #111; text-decoration: none; flex-shrink: 0; }
+.tb-logo .dot { display: inline-block; width: 11px; height: 11px; background: #8b1a2e; border-radius: 50%; margin: 0 1px; vertical-align: middle; position: relative; top: -2px; }
+.tb-mid { display: flex; align-items: center; gap: 14px; padding: 0 18px; border-right: 1px solid #d5d5d5; flex-shrink: 0; }
+.tb-mid button { font-size: 13px; font-weight: 600; color: #2a2a2a; background: none; border: none; cursor: pointer; font-family: inherit; }
+.tb-contrast { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(90deg, #111 50%, #fff 50%); border: 1.5px solid #999; cursor: pointer; flex-shrink: 0; }
+.tb-search { display: flex; align-items: center; flex: 1; padding: 0 16px; gap: 10px; border-right: 1px solid #d5d5d5; }
+.tb-search input { border: none; outline: none; font-size: 14px; color: #aaa; background: transparent; width: 100%; font-family: inherit; }
+.tb-search .si { font-size: 19px; color: #8b1a2e; cursor: pointer; }
+.tb-user { display: flex; align-items: center; gap: 10px; padding: 0 18px; cursor: pointer; flex-shrink: 0; background: #f4f4f4; position: relative; }
+.tb-avatar { width: 34px; height: 34px; border-radius: 50%; background: #4e82c4; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 17px; flex-shrink: 0; }
+.tb-uname { font-size: 13px; font-weight: 500; color: #111; line-height: 1.3; }
+.tb-urole { font-size: 11px; color: #666; }
+.tb-caret { font-size: 11px; color: #666; transition: transform 0.15s; }
+.tb-caret.rot { transform: rotate(180deg); }
+
+/* PAGE LAYOUT (account panel + main content, side by side, centered as a group) */
+.layout { max-width: 1000px; margin: 0 auto; padding: 0 16px; display: flex; gap: 48px; justify-content: center; align-items: flex-start; }
+.acc-panel { width: 280px; flex-shrink: 0; background: #fff; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); overflow: hidden; margin-top: 28px; display: none; }
+.acc-panel.open { display: block; }
+.main-col { flex: 1 1 640px; min-width: 0; }
+.main-col .outer { max-width: 640px; margin: 0; padding: 0; }
+
+/* ACCOUNT PANEL CONTENT */
+.acc-red { background: #8b1a2e; color: #fff; padding: 14px 18px 16px; cursor: pointer; }
+.acc-red-lbl { font-size: 11.5px; opacity: 0.85; margin-bottom: 6px; }
+.acc-red-row { display: flex; align-items: center; justify-content: space-between; }
+.acc-red-name { font-size: 15px; font-weight: 700; line-height: 1.3; }
+.acc-red-role { font-size: 12px; opacity: 0.85; font-weight: 400; margin-top: 2px; }
+.acc-red-caret { font-size: 12px; opacity: 0.9; }
+.acc-menu { list-style: none; padding: 8px 0; }
+.acc-item { display: flex; align-items: center; gap: 12px; padding: 11px 18px; font-size: 14px; color: #1a1a1a; cursor: pointer; }
+.acc-item:hover { background: #f5f5f5; }
+.acc-ico { width: 20px; text-align: center; font-size: 15px; color: #444; flex-shrink: 0; }
+.acc-lbl { flex: 1; }
+.acc-chev { font-size: 12px; color: #999; }
+
+/* MAINNAV */
+.mainnav { background: #8b1a2e; display: flex; align-items: stretch; height: 44px; padding: 0 8px; }
+.mainnav a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; padding: 0 20px; display: flex; align-items: center; cursor: pointer; white-space: nowrap; transition: background 0.12s; }
+.mainnav a:hover { background: rgba(0,0,0,0.14); }
+.mainnav a.home { font-size: 18px; padding: 0 18px; }
+
+/* BREADCRUMB */
+.bc-bar { border-bottom: 1px solid #e8e8e8; }
+.bc { max-width: 960px; margin: 0 auto; padding: 11px 24px; font-size: 13px; color: #555; }
+.bc a { color: #8b1a2e; text-decoration: none; cursor: pointer; }
+.bc a:hover { text-decoration: underline; }
+.bc .sep { margin: 0 6px; color: #bbb; }
+
+/* OUTER */
+.outer { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+/* PAGE HEADER */
+.pg-head { padding: 28px 0 0; }
+.pg-title { font-size: 26px; font-weight: 700; color: #1a1a1a; margin-bottom: 20px; letter-spacing: -0.2px; }
+
+/* STEPPER */
+.stepper { display: flex; align-items: center; gap: 7px; padding-bottom: 26px; }
+.sn { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #c0c0c0; background: #fff; color: #aaa; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sn.act { background: #484848; border-color: #484848; color: #fff; font-weight: 600; }
+.s-lbl { font-size: 13.5px; color: #222; margin-right: 4px; }
+.s-r { margin-left: auto; }
+.btn-inst { padding: 8px 18px; border-radius: 22px; border: 1.5px solid #8b1a2e; background: #fff; color: #8b1a2e; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; }
+.btn-inst:hover { background: #fdf5f6; }
+
+/* ALERT BAR */
+.alert-bar { background: #616161; color: #fff; display: flex; align-items: center; gap: 10px; padding: 11px 16px; font-size: 13px; }
+.alert-bar .aico { color: #f5b800; font-size: 14px; flex-shrink: 0; }
+
+/* FORM BODY */
+.fbody { padding: 22px 0 0; }
+.sec-h { font-size: 17px; font-weight: 700; color: #1a1a1a; margin-bottom: 14px; }
+.sec-sub { font-size: 13.5px; color: #333; margin-bottom: 4px; }
+.sec-sub-i { font-size: 13px; color: #555; font-style: italic; margin-bottom: 18px; }
+
+/* DIVIDER */
+.dv { border: none; border-top: 1px solid #e0e0e0; margin: 22px 0; }
+
+/* FIELD ROW */
+.fr { display: flex; flex-direction: column; align-items: flex-start; gap: 0; margin-bottom: 18px; }
+.fl { width: 100%; font-size: 13.5px; font-weight: 700; color: #222; padding-top: 0; padding-right: 0; padding-bottom: 6px; line-height: 1.4; }
+.fl .r { color: #8b1a2e; font-weight: 700; }
+.fl .ti { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid #999; color: #777; font-size: 11px; font-weight: 700; cursor: pointer; margin-left: 2px; vertical-align: middle; }
+.fv { width: 100%; }
+.fv input, .fv textarea, .fv select { width: 100%; max-width: 480px; border: 1px solid #ccc; border-radius: 3px; padding: 8px 10px; font-size: 13.5px; font-family: inherit; color: #111; background: #fff; outline: none; transition: border-color 0.15s; }
+.fv input:focus, .fv textarea:focus { border-color: #24303d; }
+.fv input.n { max-width: 180px; }
+.fv input.m { max-width: 340px; }
+.fv .dr { display: flex; align-items: center; gap: 6px; }
+.fv .dr input { max-width: 180px; }
+.fv .dr .cal { font-size: 17px; color: #8b1a2e; cursor: pointer; }
+.fv .pkr { display: flex; align-items: center; gap: 5px; }
+.fv .pkr input:first-child { max-width: 130px; }
+.fv .pkr input:last-child { max-width: 100px; }
+.fv .pkr .dsh { font-size: 17px; color: #444; font-weight: 300; margin: 0 1px; }
+.fv .hint { font-size: 12px; color: #777; margin-top: 3px; font-style: italic; }
+
+/* SELECTION PANEL (image 1 style) */
+.chg-select { margin: 4px 0 30px; }
+.chg-select .cs-title { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
+.chg-select .cs-desc { font-size: 13.5px; color: #333; line-height: 1.6; margin-bottom: 16px; }
+.chg-select .cs-req { font-size: 12.5px; color: #8b1a2e; margin-bottom: 20px; }
+.chg-select .cs-q { font-size: 14.5px; font-weight: 700; color: #1a1a1a; margin-bottom: 12px; }
+.cs-opt-list { display: flex; flex-direction: column; gap: 12px; }
+.cs-opt { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #1a1a1a; cursor: pointer; }
+.cs-opt input[type=checkbox] { width: 19px; height: 19px; accent-color: #8b1a2e; cursor: pointer; flex-shrink: 0; }
+
+/* CARD BLOCK (image 2 style) — replaces old accordion blocks */
+.chg-card { background: #fff; border: 1.5px solid #d7d7d7; border-radius: 16px; padding: 22px 26px 26px; margin-bottom: 20px; }
+.chg-card-title { font-size: 19px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+.chg-card-desc { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 20px; }
+.chg-card .fr:last-child { margin-bottom: 0; }
+
+/* CHECKBOX BLOCKS (legacy — kept for any remaining accordion use) */
+.cb-blk { background: #fff; border: 2px solid #8896a8; border-radius: 10px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.cb-trig { display: flex; align-items: center; gap: 11px; padding: 20px 24px; cursor: pointer; transition: background 0.1s; user-select: none; position: relative; }
+.cb-trig:hover { background: #f7f9fb; }
+.cb-trig input[type=checkbox] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.cb-trig::after { content: '\276F'; position: absolute; right: 24px; top: 50%; transform: translateY(-50%) rotate(90deg); font-size: 14px; color: #444; transition: transform 0.2s; }
+.cb-blk.open .cb-trig::after { transform: translateY(-50%) rotate(-90deg); }
+.cb-txt { flex: 1; font-size: 18.5px; font-weight: 700; color: #1a1a1a; line-height: 1.4; padding-right: 30px; }
+.cb-txt .sub { font-size: 13px; color: #666; display: block; margin-top: 4px; font-weight: 400; font-style: italic; }
+.cb-bdy { display: none; padding: 4px 24px 24px 24px; background: #fff; border-top: 1px solid #eee; }
+.cb-blk.open .cb-bdy { display: block; }
+.cb-bdy .fr:first-child { margin-top: 14px; }
+
+/* ADD BUTTON */
+.btn-add { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 20px; border: 1.5px solid #8b1a2e; background: #fff; color: #8b1a2e; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; margin-top: 6px; }
+.btn-add:hover { background: #fdf5f6; }
+
+/* CHILD CARD */
+.ch-card { border: 1px solid #e0e0e0; border-radius: 3px; padding: 12px 14px 10px; margin-bottom: 8px; position: relative; background: #fff; }
+.ch-ttl { font-size: 12.5px; font-weight: 700; color: #666; margin-bottom: 10px; }
+.btn-rm { position: absolute; top: 8px; right: 10px; background: none; border: none; font-size: 16px; color: #bbb; cursor: pointer; line-height: 1; }
+.btn-rm:hover { color: #8b1a2e; }
+
+/* BANK INNER */
+.bank-blk { margin-top: 14px; padding-top: 14px; border-top: 1px solid #eee; }
+.bank-lbl { font-size: 12.5px; font-weight: 700; color: #666; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
+
+/* DOCS */
+.docs-note { font-size: 12.5px; color: #666; font-style: italic; margin-bottom: 10px; }
+.doc-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.doc-card { border: 1px solid #e0e0e0; border-radius: 4px; padding: 16px; margin-bottom: 12px; background: #fff; }
+.doc-row input { flex: 1; border: 1px solid #ccc; border-radius: 3px; padding: 8px 10px; font-size: 13.5px; font-family: inherit; outline: none; }
+.doc-row input:focus { border-color: #24303d; }
+.btn-rmd { background: none; border: none; font-size: 17px; color: #bbb; cursor: pointer; }
+.btn-rmd:hover { color: #8b1a2e; }
+
+/* PRIVACY */
+.priv-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: #f5f5f5; border-radius: 3px; margin-top: 14px; font-size: 13px; color: #333; line-height: 1.6; }
+.priv-row input { width: 19px; height: 19px; margin-top: 3px; accent-color: #24303d; flex-shrink: 0; cursor: pointer; }
+.priv-row a { color: #8b1a2e; }
+
+/* BOTTOM BUTTONS */
+.btns { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+.btn-bk { padding: 9px 40px; border-radius: 6px; font-size: 15px; border: 1.5px solid #24303d; background: #fff; color: #24303d; cursor: pointer; font-family: inherit; font-weight: 600; }
+.btn-bk:hover { background: #f2f3f4; }
+.btn-fw { padding: 9px 44px; border-radius: 6px; font-size: 15px; border: 1.5px solid #24303d; background: #24303d; color: #fff; cursor: pointer; font-family: inherit; font-weight: 600; }
+.btn-fw:hover { background: #1a232c; border-color: #1a232c; }
+
+/* RADIO GROUP */
+.radio-grp { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+.pakalp-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
+.pakalp-opt { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: #222; cursor: pointer; }
+.pakalp-opt input[type=checkbox] { width: 19px; height: 19px; accent-color: #24303d; cursor: pointer; flex-shrink: 0; }
+.radio-opt { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: #222; cursor: pointer; }
+.radio-opt input[type=radio] { width: 19px; height: 19px; accent-color: #24303d; cursor: pointer; flex-shrink: 0; }
+
+/* INFO NOTE */
+.info-note { font-size: 13px; color: #333; margin-bottom: 16px; line-height: 1.6; }
+
+/* CHECK OPT (confirmations) */
+.check-opt { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; font-size: 13.5px; color: #222; line-height: 1.6; }
+.check-opt input[type=checkbox] { width: 19px; height: 19px; margin-top: 2px; accent-color: #24303d; cursor: pointer; flex-shrink: 0; }
+.check-opt label { cursor: pointer; }
+
+/* ADDRESS SUB-FIELDS */
+.addr-fields { display: flex; flex-direction: column; gap: 0; }
+.addr-row { display: flex; flex-direction: column; margin-bottom: 12px; }
+.addr-row:last-child { margin-bottom: 0; }
+.addr-lbl { font-size: 13px; color: #333; margin-bottom: 5px; font-weight: 400; }
+.addr-lbl .r { color: #8b1a2e; font-weight: 700; }
+.addr-inp { width: 100%; border: 1px solid #ccc; border-radius: 3px; padding: 8px 10px; font-size: 13.5px; font-family: inherit; color: #111; background: #fff; outline: none; transition: border-color 0.15s; }
+.addr-inp:focus { border-color: #24303d; }
+.addr-inp.m { max-width: 340px; }
+.addr-inp.n { max-width: 180px; }
+
+/* BĒRNS CARD — summary table */
+.berns-card { border: 1px solid #ddd; border-radius: 4px; margin-bottom: 10px; background: #fff; overflow: hidden; }
+.berns-summary { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1.4fr auto; gap: 0; background: #fff; }
+
+/* TWO-ROW SUMMARY (shown after Saglabāt) */
+.berns-summary2 { padding: 14px 16px; background: #fff; border-bottom: 1px solid #eee; }
+.bs2-row1 { display: flex; flex-wrap: wrap; gap: 22px; font-size: 13px; color: #222; margin-bottom: 8px; }
+.bs2-row1 strong { font-weight: 700; color: #444; margin-right: 4px; }
+.bs2-row2 { display: flex; align-items: center; justify-content: space-between; gap: 14px; font-size: 13px; color: #222; }
+.bs2-row2 strong { font-weight: 700; color: #444; margin-right: 4px; }
+.berns-sum-head { font-size: 12px; font-weight: 700; color: #333; padding: 8px 10px 4px; border-bottom: 1px solid #eee; }
+.berns-sum-val { font-size: 12.5px; color: #222; padding: 6px 10px 8px; border-bottom: 1px solid #eee; }
+.berns-sum-del { display: flex; align-items: center; justify-content: center; padding: 6px 10px; border-bottom: 1px solid #eee; }
+.btn-dzest { padding: 6px 18px; border-radius: 20px; border: 1.5px solid #c8a84b; background: #fff; color: #8b7020; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; white-space: nowrap; }
+.btn-dzest:hover { background: #fdf9ec; }
+.berns-fields { padding: 14px 16px 6px; }
+.berns-frow { display: flex; align-items: flex-start; margin-bottom: 14px; gap: 0; }
+.berns-flbl { width: 200px; min-width: 160px; flex-shrink: 0; font-size: 13.5px; color: #222; padding-top: 9px; font-weight: 500; padding-right: 12px; display: flex; align-items: flex-start; gap: 4px; }
+.berns-flbl .r { color: #8b1a2e; font-weight: 700; }
+.berns-flbl .ti { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid #999; color: #777; font-size: 11px; font-weight: 700; cursor: pointer; margin-left: 1px; flex-shrink: 0; }
+.berns-fval { flex: 1; }
+.berns-fval input { width: 100%; max-width: 340px; border: 1px solid #ccc; border-radius: 3px; padding: 8px 10px; font-size: 13.5px; font-family: inherit; color: #111; background: #fff; outline: none; transition: border-color 0.15s; }
+.berns-fval input:focus { border-color: #24303d; }
+
+/* STACKED FIELD (label above, full-width input, helper text below) */
+.stk-field { margin-bottom: 18px; }
+.stk-lbl { font-size: 13.5px; font-weight: 700; color: #222; margin-bottom: 6px; }
+.stk-lbl .r { color: #8b1a2e; font-weight: 700; }
+.stk-field input { width: 100%; border: 1px solid #ccc; border-radius: 4px; padding: 10px 12px; font-size: 14px; font-family: inherit; color: #111; background: #fff; outline: none; transition: border-color 0.15s; }
+.stk-field input:focus { border-color: #24303d; }
+.stk-help { display: flex; align-items: flex-start; gap: 6px; margin-top: 6px; font-size: 12px; color: #666; line-height: 1.5; }
+.stk-help .hi { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; border: none; background: #24303d; color: #fff; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 1px; font-style: normal; }
+.btn-piev-gray { padding: 9px 22px; border-radius: 4px; border: none; background: #6b6b6b; color: #fff; font-size: 13.5px; font-weight: 500; cursor: pointer; font-family: inherit; margin-top: 4px; }
+.btn-piev-gray:hover { background: #555; }
+.stk-section-h { font-size: 14.5px; font-weight: 700; color: #111; margin: 22px 0 14px; }
+.btn-saglabat { margin: 4px 0 14px 0; padding: 8px 22px; border-radius: 20px; border: 1.5px solid #c8a84b; background: #fff; color: #8b7020; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; }
+.btn-saglabat:hover { background: #fdf9ec; }
+
+.ootis-result { font-size: 13.5px; color: #222; padding: 8px 0 4px; }
+.ootis-result strong { color: #8b1a2e; }
+.ootis-doc-btns { display: flex; gap: 10px; margin-top: 10px; }
+.btn-doc-view, .btn-doc-del { padding: 7px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: 1.5px solid #8b1a2e; background: #fff; color: #8b1a2e; }
+.btn-doc-view:hover, .btn-doc-del:hover { background: #fdf5f6; }
+.ootis-provider { padding: 12px 14px; background: #f7f7f7; border: 1px solid #e5e5e5; border-radius: 4px; margin: 8px 0; }
+.ootis-prov-h { font-size: 13.5px; font-weight: 700; color: #222; margin-bottom: 10px; }
+
+/* ADDRESS MODE BUTTONS */
+.addr-mode-btns { display: flex; gap: 10px; margin: 4px 0 12px; flex-wrap: wrap; }
+.btn-addr-manual, .btn-addr-ootis { padding: 7px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.12s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-addr-manual { border: 1.5px solid #8b1a2e; background: #fff; color: #8b1a2e; }
+.btn-addr-manual:hover { background: #fdf5f6; }
+.btn-addr-ootis { border: 1.5px solid #8b1a2e; background: #fff; color: #8b1a2e; }
+.btn-addr-ootis:hover { background: #fdf5f6; }
+.btn-addr-manual.selected, .btn-addr-ootis.selected { background: #8b1a2e; color: #fff; }
+.eu-flag-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; font-size: 12px; overflow: hidden; flex-shrink: 0; }
+
+/* STUDY CARDS (Mācības citā valstī — self + children, expandable, no delete) */
+.study-card { border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; overflow: hidden; background: #fff; }
+.study-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; cursor: pointer; user-select: none; }
+.study-head:hover { background: #f7f9fb; }
+.study-title { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+.study-title .sub { font-size: 12px; color: #666; font-weight: 400; margin-left: 6px; }
+.study-chev { font-size: 12px; color: #444; transition: transform 0.2s; }
+.study-card.open .study-chev { transform: rotate(180deg); }
+.study-body { display: none; padding: 6px 18px 20px; border-top: 1px solid #eee; }
+.study-card.open .study-body { display: block; }
+.study-body .fr:first-child { margin-top: 14px; }
+
+/* ERROR LINE */
+.erl { display: flex; align-items: flex-start; gap: 8px; margin-top: 24px; font-size: 13px; color: #555; }
+.eico { color: #f0a800; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+.klnk { color: #8b1a2e; font-weight: 600; text-decoration: none; cursor: pointer; }
+.urn { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+@media (max-width: 680px) {
+  .fr { flex-direction: column; }
+  .fl { width: 100%; padding-top: 0; padding-right: 0; margin-bottom: 4px; }
+  .cb-bdy { padding: 6px 12px 16px 12px; }
+  .outer { padding: 0 12px; }
+  .chg-card { padding: 18px 16px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a class="tb-logo">Latv<span class="dot"></span>ja.lv</a>
+  <div class="tb-mid">
+    <button>AAA</button>
+    <div class="tb-contrast"></div>
+    <button>EN</button>
+    <button style="font-size:16px;background:none;border:none;cursor:pointer;">🎤</button>
+  </div>
+  <div class="tb-search">
+    <input type="text" placeholder="Meklēt portālā...">
+    <span class="si">🔍</span>
+  </div>
+  <div class="tb-user" onclick="toggleAcc(this)">
+    <div class="tb-avatar">👤</div>
+    <div>
+      <div class="tb-uname">Jānis Bērziņš</div>
+      <div class="tb-urole">Fiziska persona</div>
+    </div>
+    <span class="tb-caret rot" id="accCaret">▾</span>
+  </div>
+</div>
+
+<!-- MAINNAV -->
+<nav class="mainnav">
+  <a class="home">🏠</a>
+  <a><strong>Pakalpojumi</strong></a>
+  <a><strong>Dzīves situācijas</strong></a>
+  <a><strong>E-adrese</strong></a>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="bc-bar">
+  <div class="bc outer">
+    <a>Sākums</a><span class="sep">›</span>
+    <a>E-pakalpojumi</a><span class="sep">›</span>
+    E-iesniegums VSAA pakalpojumiem
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="layout">
+  <div class="acc-panel open" id="accPanel">
+    <div class="acc-red">
+      <div class="acc-red-lbl">Pieejamie konti</div>
+      <div class="acc-red-row">
+        <div>
+          <div class="acc-red-name">Jānis Bērziņš</div>
+          <div class="acc-red-role">Privātpersona</div>
+        </div>
+        <span class="acc-red-caret">▾</span>
+      </div>
+    </div>
+    <ul class="acc-menu">
+      <li class="acc-item"><span class="acc-ico">▦</span><span class="acc-lbl">Mana Latvija.lv</span></li>
+      <li class="acc-item"><span class="acc-ico">✉</span><span class="acc-lbl">E-adrese</span><span class="acc-chev">˅</span></li>
+      <li class="acc-item"><span class="acc-ico">▤</span><span class="acc-lbl">E-Rēķini</span><span class="acc-chev">˅</span></li>
+      <li class="acc-item"><span class="acc-ico">◷</span><span class="acc-lbl">Veikto darbību vēsture</span></li>
+      <li class="acc-item"><span class="acc-ico">⚑</span><span class="acc-lbl">Paziņojumi</span></li>
+      <li class="acc-item"><span class="acc-ico">▧</span><span class="acc-lbl">Pilnvarojumi</span></li>
+      <li class="acc-item"><span class="acc-ico">⚙</span><span class="acc-lbl">Iestatījumi</span><span class="acc-chev">˅</span></li>
+      <li class="acc-item"><span class="acc-ico">ⓘ</span><span class="acc-lbl">Mani dati</span></li>
+    </ul>
+  </div>
+
+  <div class="main-col">
+  <div class="outer">
+  <div class="pg-head">
+    <div class="pg-title">E-iesniegums VSAA pakalpojumiem</div>
+    <div class="stepper">
+      <div class="sn">1.</div>
+      <div class="sn act">2.</div>
+      <span class="s-lbl">Datu ievade</span>
+      <div class="sn">3.</div>
+      <div class="s-r"><button class="btn-inst">? Instrukcija</button></div>
+    </div>
+  </div>
+
+  <div class="fbody">
+
+    <!-- SELECTION PANEL (picture 1 style) -->
+    <div class="chg-select">
+      <div class="cs-title">Ārvalstī dzīvojošu personu dzīves vai darba apstākļu maiņa</div>
+      <div class="cs-desc">Izmantojiet šo pakalpojumu, lai paziņotu par izmaiņām privātās vai darba dzīves apstākļos, dzīvojot ārvalstīs un saņemot Valsts sociālās apdrošināšanas aģentūras pakalpojumus.</div>
+      <div class="cs-req">* Lauki atzīmēti ar zvaigznes simbolu ir obligāti</div>
+      <div class="cs-q">Kuras izmaiņas vēlaties pieteikt? <span style="color:#8b1a2e;">*</span></div>
+      <div class="cs-opt-list">
+        <label class="cs-opt"><input type="checkbox" id="sel-banka" onchange="updateVisibility()" checked> Bankas konts</label>
+        <label class="cs-opt"><input type="checkbox" id="sel-dzives" onchange="updateVisibility()"> Dzīvesvieta</label>
+        <label class="cs-opt"><input type="checkbox" id="sel-soc" onchange="updateVisibility()"> Sociālie maksājumi</label>
+        <label class="cs-opt"><input type="checkbox" id="sel-nod" onchange="updateVisibility()"> Nodarbinātība</label>
+        <label class="cs-opt"><input type="checkbox" id="sel-izgl" onchange="updateVisibility()"> Izglītība</label>
+      </div>
+    </div>
+
+    <!-- BLOCKS (picture 2 style) — shown only if the matching selection above is checked -->
+    <div id="blocksArea">
+
+    <!-- Bankas konts -->
+    <div class="chg-card" id="card-banka">
+      <div class="chg-card-title">Bankas konts</div>
+      <div class="chg-card-desc">Kredītiestādes/maksājumu iestādes konta maiņu uz kuru turpmāk pārskaitīt VSAA pakalpojumu (norādīt Latvijā piešķirtās pensijas/pabalsta/atlīdzības veidu).</div>
+      <div class="fr">
+        <div class="fl">Pensijas/pabalsta/atlīdzības veids <span class="r">*</span></div>
+        <div class="fv">
+          <div class="pakalp-list">
+            <label class="pakalp-opt"><input type="checkbox" name="pakalpVeids" value="vecuma_pensija"> Vecuma pensija</label>
+            <label class="pakalp-opt"><input type="checkbox" name="pakalpVeids" value="invaliditates_pensija"> Invaliditātes pensija</label>
+            <label class="pakalp-opt"><input type="checkbox" name="pakalpVeids" value="apgadnieka_pensija"> Apgādnieka zaudējuma pensija</label>
+            <label class="pakalp-opt"><input type="checkbox" name="pakalpVeids" value="berna_kopsanas_pabalsts"> Bērna kopšanas pabalsts</label>
+            <label class="pakalp-opt"><input type="checkbox" name="pakalpVeids" value="valsts_socialais_pabalsts"> Valsts sociālā nodrošinājuma pabalsts</label>
+          </div>
+          <div class="hint">(norādīt Latvijā piešķirtās pensijas/pabalsta/atlīdzības veidu)</div>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="fl">Konta numurs <span class="r">*</span></div>
+        <div class="fv">
+          <input type="text" placeholder="LVXX XXXX XXXX XXXX XXXX X">
+          <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Norādiet konta numuru starptautiskajā formātā (IBAN), uz kuru vēlaties saņemt pakalpojumu.</div>
+        </div>
+      </div>
+
+      <hr class="dv" style="margin:20px 0 16px;">
+      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
+      <div id="dlist-b1"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-b1')" style="margin-top:4px;">+ Pievienot dokumentu</button>
+    </div>
+
+    <!-- Dzīvesvieta — pati iesniedzēja -->
+    <div class="chg-card" id="card-dzives-1">
+      <div class="chg-card-title">Dzīvesvieta</div>
+      <div class="chg-card-desc">Savas dzīvesvietas ārvalstī maiņu, kuras adrese norādīta šajā iesniegumā.</div>
+
+      <div class="stk-field">
+        <div class="stk-lbl" style="font-weight:400;">PMLP reģistrētā dzīvesvietas adrese</div>
+        <input type="text" readonly style="background:#f9f9f9;color:#555;">
+        <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no Pilsonības un migrācijas lietu pārvaldes reģistra.</div>
+      </div>
+
+      <div class="stk-field">
+        <div class="stk-lbl" style="font-weight:400;">VSAA reģistrētā dzīvesvietas adrese</div>
+        <input type="text" readonly style="background:#f9f9f9;color:#555;">
+        <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no VSAA informācijas sistēmā reģistrētajiem datiem.</div>
+      </div>
+
+      <div class="fr">
+        <div class="fl">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
+        <div class="fv">
+          <div class="addr-fields" id="addr1">
+            <div class="addr-mode-btns" id="addr1-btns">
+              <button type="button" class="btn-addr-manual" onclick="showManual('addr1')">Reģistrēt manuāli</button>
+              <button type="button" class="btn-addr-ootis" onclick="pieprasitOOTIS(this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
+            </div>
+            <div class="addr-row addr-extra" id="addr1-extra0" style="display:none;">
+              <label class="addr-lbl">Valsts <span class="r">*</span></label>
+              <select class="addr-inp m">
+<option value="" disabled selected>Izvēlieties valsti</option>
+                <option value="Austrija">Austrija</option>
+                <option value="Beļģija">Beļģija</option>
+                <option value="Bulgārija">Bulgārija</option>
+                <option value="Čehija">Čehija</option>
+                <option value="Dānija">Dānija</option>
+                <option value="Igaunija">Igaunija</option>
+                <option value="Somija">Somija</option>
+                <option value="Francija">Francija</option>
+                <option value="Vācija">Vācija</option>
+                <option value="Grieķija">Grieķija</option>
+                <option value="Ungārija">Ungārija</option>
+                <option value="Īrija">Īrija</option>
+                <option value="Itālija">Itālija</option>
+                <option value="Kipra">Kipra</option>
+                <option value="Lietuva">Lietuva</option>
+                <option value="Luksemburga">Luksemburga</option>
+                <option value="Malta">Malta</option>
+                <option value="Nīderlande">Nīderlande</option>
+                <option value="Polija">Polija</option>
+                <option value="Portugāle">Portugāle</option>
+                <option value="Rumānija">Rumānija</option>
+                <option value="Slovākija">Slovākija</option>
+                <option value="Slovēnija">Slovēnija</option>
+                <option value="Spānija">Spānija</option>
+                <option value="Zviedrija">Zviedrija</option>
+              </select>
+            </div>
+            <div class="addr-row addr-extra" id="addr1-extra00" style="display:none;">
+              <label class="addr-lbl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</label>
+              <input type="text" class="addr-inp m">
+            </div>
+            <div class="addr-row addr-extra" id="addr1-extra" style="display:none;">
+              <label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label>
+              <input type="text" class="addr-inp">
+            </div>
+            <div class="addr-row addr-extra" id="addr1-extra2" style="display:none;">
+              <label class="addr-lbl">Pilsēta/pagasts, novads <span class="r">*</span></label>
+              <input type="text" class="addr-inp">
+            </div>
+            <div class="addr-row addr-extra" id="addr1-extra3" style="display:none;">
+              <label class="addr-lbl">Pasta indekss</label>
+              <input type="text" class="addr-inp n">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="dv" style="margin:20px 0 16px;">
+      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
+      <div id="dlist-b1a"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-b1a')" style="margin-top:4px;">+ Pievienot dokumentu</button>
+    </div>
+
+    <!-- Dzīvesvieta — bērni -->
+    <div class="chg-card" id="card-dzives-2">
+      <div class="chg-card-title">Bērna/-u dzīvesvieta</div>
+      <div class="chg-card-desc">Bērna/-u dzīvesvietas adreses maiņu (norādīt pilnu adresi, ja bērna dzīvesvietas adrese atšķiras no iesniedzēja adreses un Latvijā par bērnu saņem pabalstus vai pensiju).</div>
+
+      <div class="check-opt" style="margin-bottom:6px;">
+        <input type="checkbox" id="cb-visiem-berniem" onchange="toggleVisiemBerniem(this)">
+        <label for="cb-visiem-berniem">Visiem bērniem reģistrēt vienu un to pašu dzīvesvietas adresi ārvalstī</label>
+      </div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:20px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Ja iesniedzējs atzīmē šo izvēli, tad piedāvā adresi ievadīt vienu reizi un tā tiek pieregistrēta visiem bērniem. Ja iesniedzējs neatzīmē šo izvēli, tad adresi jāievada katram izvēlētajam bērnam.</div>
+
+      <!-- SHARED ADDRESS MODE (visible when checkbox above is checked) -->
+      <div id="sharedBlock" style="display:none;">
+        <div class="stk-field">
+          <div class="stk-lbl">Izvēlieties bērnus <span class="r">*</span></div>
+          <div class="pakalp-list" id="sharedChildrenList">
+            <label class="pakalp-opt"><input type="checkbox" class="shared-child-cb" value="030512-12345|Jānis|Bērziņš"> 030512-12345 – Bērziņš Jānis</label>
+            <label class="pakalp-opt"><input type="checkbox" class="shared-child-cb" value="150819-54321|Anna|Kalniņa"> 150819-54321 – Kalniņa Anna</label>
+            <label class="pakalp-opt"><input type="checkbox" class="shared-child-cb" value="220310-98765|Mārtiņš|Ozoliņš"> 220310-98765 – Ozoliņš Mārtiņš</label>
+          </div>
+        </div>
+        <div class="fr">
+          <div class="fl">Bērna/-u jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
+          <div class="fv" style="max-width:100%;">
+            <div class="addr-fields" id="sharedAddr">
+              <div class="addr-row"><label class="addr-lbl">Valsts <span class="r">*</span></label><select class="addr-inp m" id="sharedValsts"></select></div>
+              <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="sharedPilseta"></div>
+              <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="sharedIela"></div>
+              <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="sharedPasta"></div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-saglabat" type="button" onclick="saglabatSharedBerni()">Saglabāt</button>
+      </div>
+
+      <div id="blist"></div>
+
+      <!-- INDIVIDUAL ADDRESS MODE (visible when checkbox above is unchecked) -->
+      <div id="individualBlock">
+        <div id="individualChildren"></div>
+      </div>
+
+      <hr class="dv" style="margin:20px 0 16px;">
+      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
+      <div id="dlist-b2"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-b2')" style="margin-top:4px;">+ Pievienot dokumentu</button>
+    </div>
+
+    <!-- Sociālie maksājumi -->
+    <div class="chg-card" id="card-soc">
+      <div class="chg-card-title">Sociālie maksājumi</div>
+      <div class="chg-card-desc">Citas valsts pensijas/pabalstu/atlīdzības saņemšanu. Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
+      <div class="fr">
+        <div class="fl">valsts <span class="r">*</span></div>
+        <div class="fv">
+          <div class="addr-fields" id="addr3">
+            <div class="addr-row">
+              <select class="addr-inp m">
+<option value="" disabled selected>Izvēlieties valsti</option>
+                <option value="Austrija">Austrija</option>
+                <option value="Beļģija">Beļģija</option>
+                <option value="Bulgārija">Bulgārija</option>
+                <option value="Čehija">Čehija</option>
+                <option value="Dānija">Dānija</option>
+                <option value="Igaunija">Igaunija</option>
+                <option value="Somija">Somija</option>
+                <option value="Francija">Francija</option>
+                <option value="Vācija">Vācija</option>
+                <option value="Grieķija">Grieķija</option>
+                <option value="Ungārija">Ungārija</option>
+                <option value="Īrija">Īrija</option>
+                <option value="Itālija">Itālija</option>
+                <option value="Kipra">Kipra</option>
+                <option value="Lietuva">Lietuva</option>
+                <option value="Luksemburga">Luksemburga</option>
+                <option value="Malta">Malta</option>
+                <option value="Nīderlande">Nīderlande</option>
+                <option value="Polija">Polija</option>
+                <option value="Portugāle">Portugāle</option>
+                <option value="Rumānija">Rumānija</option>
+                <option value="Slovākija">Slovākija</option>
+                <option value="Slovēnija">Slovēnija</option>
+                <option value="Spānija">Spānija</option>
+                <option value="Zviedrija">Zviedrija</option>
+              </select>
+            </div>
+            <div class="addr-row">
+              <label class="addr-lbl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</label>
+              <input type="text" class="addr-inp m">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="fl">pakalpojuma veids <span class="r">*</span></div>
+        <div class="fv">
+          <select>
+            <option value="" disabled selected>Izvēlieties</option>
+            <option value="pensija">Pensija</option>
+            <option value="atlidziba">Atlīdzība</option>
+            <option value="pabalsts">Pabalsts</option>
+          </select>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="fl">sākuma datums <span class="r">*</span></div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
+      <div class="fr">
+        <div class="fl">beigu datums (ja tāds ir)</div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
+      <div class="fr">
+        <div class="fl">bērna vārds/uzvārds</div>
+        <div class="fv">
+          <input type="text" class="m">
+          <div class="hint">(ja citā valstī saņem pabalstus vai pensiju par bērnu)</div>
+        </div>
+      </div>
+
+      <hr class="dv" style="margin:20px 0 16px;">
+      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
+      <div id="dlist-b3"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-b3')" style="margin-top:4px;">+ Pievienot dokumentu</button>
+    </div>
+
+    <!-- Nodarbinātība -->
+    <div class="chg-card" id="card-nod">
+      <div class="chg-card-title">Nodarbinātība</div>
+      <div class="chg-card-desc">Nodarbinātību vai pašnodarbinātību citā valstī (aizpilda, ja Latvijā saņem kādu no pabalstiem vai pensiju priekšlaicīgi).</div>
+      <div class="fr">
+        <div class="fl">valsts <span class="r">*</span></div>
+        <div class="fv">
+          <div class="addr-fields" id="addr4">
+            <div class="addr-row">
+              <select class="addr-inp m">
+<option value="" disabled selected>Izvēlieties valsti</option>
+                <option value="Austrija">Austrija</option>
+                <option value="Beļģija">Beļģija</option>
+                <option value="Bulgārija">Bulgārija</option>
+                <option value="Čehija">Čehija</option>
+                <option value="Dānija">Dānija</option>
+                <option value="Igaunija">Igaunija</option>
+                <option value="Somija">Somija</option>
+                <option value="Francija">Francija</option>
+                <option value="Vācija">Vācija</option>
+                <option value="Grieķija">Grieķija</option>
+                <option value="Ungārija">Ungārija</option>
+                <option value="Īrija">Īrija</option>
+                <option value="Itālija">Itālija</option>
+                <option value="Kipra">Kipra</option>
+                <option value="Lietuva">Lietuva</option>
+                <option value="Luksemburga">Luksemburga</option>
+                <option value="Malta">Malta</option>
+                <option value="Nīderlande">Nīderlande</option>
+                <option value="Polija">Polija</option>
+                <option value="Portugāle">Portugāle</option>
+                <option value="Rumānija">Rumānija</option>
+                <option value="Slovākija">Slovākija</option>
+                <option value="Slovēnija">Slovēnija</option>
+                <option value="Spānija">Spānija</option>
+                <option value="Zviedrija">Zviedrija</option>
+              </select>
+            </div>
+            <div class="addr-row">
+              <label class="addr-lbl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</label>
+              <input type="text" class="addr-inp m">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="fl">darba devēja nosaukums</div>
+        <div class="fv">
+          <input type="text">
+          <div class="hint">(aizpilda, ja ir darba ņēmējs)</div>
+        </div>
+      </div>
+      <div class="fr">
+        <div class="fl">sākuma datums <span class="r">*</span></div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
+      <div class="fr">
+        <div class="fl">beigu datums (ja tāds ir)</div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
+
+      <hr class="dv" style="margin:20px 0 16px;">
+      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
+      <div id="dlist-b4"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-b4')" style="margin-top:4px;">+ Pievienot dokumentu</button>
+    </div>
+
+    <!-- Izglītība -->
+    <div class="chg-card" id="card-izgl">
+      <div class="chg-card-title">Izglītība</div>
+      <div class="chg-card-desc">Mācībām citā valstī (aizpilda, ja saņem apgādnieka zaudējuma pensiju par sevi vai bērnu vai pabalstus par bērnu).</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:16px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Atveriet ierakstu, par kuru vēlaties norādīt mācību informāciju.</div>
+
+      <div class="study-card" id="st-self">
+        <div class="study-head" onclick="toggleStudy('st-self')">
+          <div class="study-title">Jānis Bērziņš <span class="sub">(par sevi)</span></div>
+          <span class="study-chev">˅</span>
+        </div>
+        <div class="study-body">
+          <div class="fr">
+            <div class="fl">valsts <span class="r">*</span></div>
+            <div class="fv"><select class="addr-inp m" id="st-self-valsts"></select></div>
+          </div>
+          <div class="fr">
+            <div class="fl">mācību iestāde <span class="r">*</span></div>
+            <div class="fv"><input type="text"><div class="hint">(iesniedzējs manuāli ievada izglītības iestādes nosaukumu)</div></div>
+          </div>
+          <div class="fr">
+            <div class="fl">izglītības veids <span class="r">*</span></div>
+            <div class="fv">
+              <select class="m">
+                <option value="" disabled selected>Izvēlieties</option>
+                <option value="pamata">Pamatizglītība</option>
+                <option value="videja">Vidējā izglītība</option>
+                <option value="profesionala">Profesionālā izglītība</option>
+                <option value="augstaka">Augstākā izglītība</option>
+              </select>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fl">izglītības forma <span class="r">*</span></div>
+            <div class="fv">
+              <select class="m">
+                <option value="" disabled selected>Izvēlieties</option>
+                <option value="klatiene">Klātiene</option>
+                <option value="neklatiene">Neklātiene</option>
+                <option value="talmaciba">Tālmācība</option>
+              </select>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fl">sākuma datums <span class="r">*</span></div>
+            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+          </div>
+          <div class="fr">
+            <div class="fl">beigu datums (ja tāds ir)</div>
+            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="studyChildren"></div>
+
+      <hr class="dv" style="margin:20px 0 16px;">
+      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
+      <div id="dlist-b5"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-b5')" style="margin-top:4px;">+ Pievienot dokumentu</button>
+    </div>
+
+    </div><!-- /blocksArea -->
+
+    <hr class="dv">
+
+    <div class="sec-h">Kontaktinformācija<span class="r">*</span></div>
+
+    <div class="stk-field">
+      <div class="stk-lbl">Mobilais tālrunis: (+371) <span class="r">*</span></div>
+      <input type="tel" style="max-width:400px;">
+      <div class="stk-help"><span class="hi">i</span>Norādiet mobilā tālruņa numuru, uz kuru VSAA nepieciešamības gadījumā varētu ar Jums sazināties.</div>
+    </div>
+
+    <div class="stk-field">
+      <div class="stk-lbl">E-pasta adrese:</div>
+      <input type="email" style="max-width:400px;">
+      <div class="stk-help"><span class="hi">i</span>Norādiet e-pasta adresi, uz kuru vēlaties saņemt informāciju par iesnieguma izskatīšanas gaitu.</div>
+    </div>
+
+    <hr class="dv">
+
+    <div class="sec-h" style="margin-bottom:14px;">Informāciju par iesnieguma saņemšanu VSAA un lēmuma pieņemšanu vēlos saņemt:<span class="r">*</span> <span class="ti">?</span></div>
+
+    <div class="radio-grp">
+      <label class="radio-opt"><input type="radio" name="infoVeids" value="epasts"> E-pastā</label>
+      <label class="radio-opt"><input type="radio" name="infoVeids" value="sms"> ar SMS (īsziņu)</label>
+    </div>
+
+    <div class="info-note">Ar informāciju par iesnieguma apstrādes gaitu un pieņemto lēmumu varat iepazīties portālā Latvija.gov.lv, izmantojot e-pakalpojumu "VSAA informācija un pakalpojumi".</div>
+
+    <div class="check-opt">
+      <input type="checkbox" id="cb-vecaki">
+      <label for="cb-vecaki">Apliecinu, ka bērna vecāki nedzīvo/nedzīvoja vai nestrādā/nestrādāja citā Eiropas Savienības/Eiropas Ekonomikas Zonas (ES/EEZ) dalībvalstī. <span class="r">*</span></label>
+    </div>
+
+    <div class="check-opt">
+      <input type="checkbox" id="cb-patiesa">
+      <label for="cb-patiesa">Apliecinu, ka ar pakalpojuma aprakstu esmu iepazinies/-usies un iesniegumā norādītā informācija ir patiesa. <span class="r">*</span></label>
+    </div>
+
+    <div class="btns">
+      <button class="btn-bk" type="button">Atpakaļ</button>
+      <button class="btn-fw" type="button" onclick="sub()">Tālāk</button>
+    </div>
+
+    <div class="erl">
+      <span class="eico">▲</span>
+      <div>
+        <a class="klnk">Pieteikt e-pakalpojuma kļūdu ›</a>
+        <div class="urn">URN:IVIS:100001:EP-VSAA-v1-0-TR-0042</div>
+      </div>
+    </div>
+    <div style="height:50px;"></div>
+
+  </div>
+  </div>
+  </div>
+</div>
+
+<script>
+const EU_VALSTIS = ["Austrija","Beļģija","Bulgārija","Čehija","Dānija","Igaunija","Somija","Francija","Vācija","Grieķija","Ungārija","Īrija","Itālija","Kipra","Lietuva","Luksemburga","Malta","Nīderlande","Polija","Portugāle","Rumānija","Slovākija","Slovēnija","Spānija","Zviedrija"];
+function euOptionsHtml() {
+  let opts = '<option value="" disabled selected>Izvēlieties valsti</option>';
+  EU_VALSTIS.forEach(v => { opts += '<option value="'+v+'">'+v+'</option>'; });
+  return opts;
+}
+document.getElementById('sharedValsts').innerHTML = euOptionsHtml();
+
+/* SELECTION -> CARD VISIBILITY */
+function updateVisibility() {
+  const map = {
+    'sel-banka': ['card-banka'],
+    'sel-dzives': ['card-dzives-1', 'card-dzives-2'],
+    'sel-soc': ['card-soc'],
+    'sel-nod': ['card-nod'],
+    'sel-izgl': ['card-izgl']
+  };
+  Object.keys(map).forEach(selId => {
+    const checked = document.getElementById(selId).checked;
+    map[selId].forEach(cardId => {
+      const card = document.getElementById(cardId);
+      if (card) card.style.display = checked ? 'block' : 'none';
+    });
+  });
+}
+
+const STUDY_BERNI = [
+  ['030512-12345','Jānis','Bērziņš'],
+  ['150819-54321','Anna','Kalniņa'],
+  ['220310-98765','Mārtiņš','Ozoliņš']
+];
+document.getElementById('st-self-valsts').innerHTML = euOptionsHtml();
+(function renderStudyChildren(){
+  const wrap = document.getElementById('studyChildren');
+  STUDY_BERNI.forEach((b, i) => {
+    const [pk, vards, uzvards] = b;
+    const cardId = 'st-child' + i;
+    const d = document.createElement('div');
+    d.className = 'study-card'; d.id = cardId;
+    d.innerHTML = `
+      <div class="study-head" onclick="toggleStudy('${cardId}')">
+        <div class="study-title">${vards} ${uzvards} <span class="sub">(personas kods: ${pk})</span></div>
+        <span class="study-chev">˅</span>
+      </div>
+      <div class="study-body">
+        <div class="fr">
+          <div class="fl">valsts <span class="r">*</span></div>
+          <div class="fv"><select class="addr-inp m" id="${cardId}-valsts">${euOptionsHtml()}</select></div>
+        </div>
+        <div class="fr">
+          <div class="fl">mācību iestāde <span class="r">*</span></div>
+          <div class="fv"><input type="text"><div class="hint">(iesniedzējs manuāli ievada izglītības iestādes nosaukumu)</div></div>
+        </div>
+        <div class="fr">
+          <div class="fl">izglītības veids <span class="r">*</span></div>
+          <div class="fv">
+            <select class="m">
+              <option value="" disabled selected>Izvēlieties</option>
+              <option value="pamata">Pamatizglītība</option>
+              <option value="videja">Vidējā izglītība</option>
+              <option value="profesionala">Profesionālā izglītība</option>
+              <option value="augstaka">Augstākā izglītība</option>
+            </select>
+          </div>
+        </div>
+        <div class="fr">
+          <div class="fl">izglītības forma <span class="r">*</span></div>
+          <div class="fv">
+            <select class="m">
+              <option value="" disabled selected>Izvēlieties</option>
+              <option value="klatiene">Klātiene</option>
+              <option value="neklatiene">Neklātiene</option>
+              <option value="talmaciba">Tālmācība</option>
+            </select>
+          </div>
+        </div>
+        <div class="fr">
+          <div class="fl">sākuma datums <span class="r">*</span></div>
+          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+        </div>
+        <div class="fr">
+          <div class="fl">beigu datums (ja tāds ir)</div>
+          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+        </div>
+      </div>`;
+    wrap.appendChild(d);
+  });
+})();
+
+function toggleStudy(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function toggleVisiemBerniem(cb) {
+  const sharedBlock = document.getElementById('sharedBlock');
+  const individualBlock = document.getElementById('individualBlock');
+  const blist = document.getElementById('blist');
+  blist.innerHTML = '';
+  if (cb.checked) {
+    sharedBlock.style.display = 'block';
+    individualBlock.style.display = 'none';
+  } else {
+    sharedBlock.style.display = 'none';
+    individualBlock.style.display = 'block';
+    document.querySelectorAll('.shared-child-cb').forEach(c => c.checked = false);
+  }
+}
+
+function saglabatSharedBerni() {
+  const checked = Array.from(document.querySelectorAll('.shared-child-cb:checked'));
+  if (checked.length === 0) {
+    alert('Lūdzu izvēlieties vismaz vienu bērnu.');
+    return;
+  }
+  const valsts = document.getElementById('sharedValsts').value;
+  const pilseta = document.getElementById('sharedPilseta').value.trim();
+  const iela = document.getElementById('sharedIela').value.trim();
+  const pasta = document.getElementById('sharedPasta').value.trim();
+  if (!valsts || !pilseta || !iela) {
+    alert('Lūdzu aizpildiet obligātos adreses laukus.');
+    return;
+  }
+  const adreseParts = [valsts, pilseta, iela];
+  if (pasta) adreseParts.push(pasta);
+  const adrese = adreseParts.join(', ');
+
+  const lst = document.getElementById('blist');
+  checked.forEach(cbEl => {
+    const parts = cbEl.value.split('|');
+    bc++;
+    const id = bc;
+    const d = document.createElement('div');
+    d.className = 'berns-card'; d.id = 'bc' + id;
+    d.innerHTML = `
+      <div class="berns-summary2" id="bc${id}-summary">
+        <div class="bs2-row1">
+          <span><strong>Personas kods:</strong> ${parts[0]}</span>
+          <span><strong>Vārds:</strong> ${parts[1]}</span>
+          <span><strong>Uzvārds:</strong> ${parts[2]}</span>
+        </div>
+        <div class="bs2-row2">
+          <span><strong>Adrese:</strong> ${adrese}</span>
+          <button class="btn-dzest" onclick="rmB(${id})">Dzēst</button>
+        </div>
+      </div>`;
+    lst.appendChild(d);
+  });
+}
+
+function toggleAcc(el) {
+  const panel = document.getElementById('accPanel');
+  const caret = document.getElementById('accCaret');
+  const isOpen = panel.classList.toggle('open');
+  caret.classList.toggle('rot', isOpen);
+}
+
+function pieprasitOOTIS(btn) {
+  btn.classList.add('selected');
+  const btnsDiv = btn.parentElement;
+  const addrFields = btnsDiv.parentElement;
+  const prefix = addrFields.id;
+  // Hide extra address rows
+  ['extra0','extra00','extra','extra2','extra3'].forEach(s => {
+    const el = document.getElementById(prefix + '-' + s);
+    if (el) el.style.display = 'none';
+  });
+  // Remove any existing result block
+  const existingRes = addrFields.querySelector('.ootis-result');
+  if (existingRes) existingRes.remove();
+  btn.textContent = 'Ielādē...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Pieprasīt apliecinājumu tiešsaistē no ES';
+    btn.disabled = false;
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2,'0');
+    const mm = String(now.getMonth()+1).padStart(2,'0');
+    const yyyy = now.getFullYear();
+    const fname = 'ootis_' + yyyy + mm + dd + '.pdf';
+    const result = document.createElement('div');
+    result.className = 'ootis-result';
+    result.innerHTML = 'Saņemtais dokuments no OOTIS: <strong>' + fname + '</strong>' +
+      '<div class="ootis-doc-btns">' +
+      '<button type="button" class="btn-doc-view" onclick="apskatitDokumentu(this)">Apskatīt dokumentu</button>' +
+      '<button type="button" class="btn-doc-del" onclick="dzestDokumentu(this)">Dzēst dokumentu</button>' +
+      '</div>';
+    addrFields.appendChild(result);
+  }, 800);
+}
+
+function apskatitDokumentu(btn) {
+  alert('Dokumenta priekšskatījums tiktu atvērts jaunā logā.');
+}
+
+function dzestDokumentu(btn) {
+  const resultDiv = btn.closest('.ootis-result');
+  const addrFields = resultDiv.parentElement;
+  const prefix = addrFields.id;
+  resultDiv.remove();
+  const otisBtn = document.querySelector('#' + prefix + '-btns .btn-addr-ootis');
+  if (otisBtn) otisBtn.classList.remove('selected');
+}
+
+function showManual(prefix) {
+  const extra0 = document.getElementById(prefix + '-extra0');
+  const extra00 = document.getElementById(prefix + '-extra00');
+  const extra1 = document.getElementById(prefix + '-extra');
+  const extra2 = document.getElementById(prefix + '-extra2');
+  const extra3 = document.getElementById(prefix + '-extra3');
+  const btns = document.getElementById(prefix + '-btns');
+  if (extra0) extra0.style.display = 'flex';
+  if (extra00) extra00.style.display = 'flex';
+  if (extra1) extra1.style.display = 'flex';
+  if (extra2) extra2.style.display = 'flex';
+  if (extra3) extra3.style.display = 'flex';
+  const addrFields = document.getElementById(prefix);
+  if (addrFields) {
+    const prov = addrFields.querySelector('.ootis-provider');
+    if (prov) prov.remove();
+    const res = addrFields.querySelector('.ootis-result');
+    if (res) res.remove();
+  }
+  if (btns) {
+    const manualBtn = btns.querySelector('.btn-addr-manual');
+    if (manualBtn) manualBtn.classList.add('selected');
+    const ootisBtn = btns.querySelector('.btn-addr-ootis');
+    if (ootisBtn) ootisBtn.classList.remove('selected');
+  }
+}
+
+let bc = 0;
+
+const B2_BERNI = [
+  ['030512-12345','Jānis','Bērziņš'],
+  ['150819-54321','Anna','Kalniņa'],
+  ['220310-98765','Mārtiņš','Ozoliņš']
+];
+(function renderIndividualChildren(){
+  const wrap = document.getElementById('individualChildren');
+  B2_BERNI.forEach((b, i) => {
+    const [pk, vards, uzvards] = b;
+    const cardId = 'ic' + i;
+    const addrId = 'caddr' + i;
+    const d = document.createElement('div');
+    d.className = 'study-card'; d.id = cardId;
+    d.innerHTML = `
+      <div class="study-head" onclick="toggleStudy('${cardId}')">
+        <div class="study-title">${vards} ${uzvards} <span class="sub">(personas kods: ${pk})</span></div>
+        <span class="study-chev">˅</span>
+      </div>
+      <div class="study-body">
+        <div class="stk-field">
+          <div class="stk-lbl" style="font-weight:400;">PMLP reģistrētā dzīvesvietas adrese</div>
+          <input type="text" readonly style="background:#f9f9f9;color:#555;">
+          <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no Pilsonības un migrācijas lietu pārvaldes reģistra.</div>
+        </div>
+        <div class="stk-field">
+          <div class="stk-lbl" style="font-weight:400;">VSAA reģistrētā dzīvesvietas adrese</div>
+          <input type="text" readonly style="background:#f9f9f9;color:#555;">
+          <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no VSAA informācijas sistēmā reģistrētajiem datiem.</div>
+        </div>
+        <div class="fr">
+          <div class="fl">bērna dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
+          <div class="fv" style="max-width:100%;">
+            <div class="addr-fields" id="${addrId}">
+              <div class="addr-mode-btns" id="${addrId}-btns">
+                <button type="button" class="btn-addr-manual" onclick="showManual('${addrId}')">Reģistrēt manuāli</button>
+                <button type="button" class="btn-addr-ootis" onclick="pieprasitOOTIS(this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
+              </div>
+              <div class="addr-row addr-extra" id="${addrId}-extra0" style="display:none;">
+                <label class="addr-lbl">Valsts <span class="r">*</span></label>
+                <select class="addr-inp m">${euOptionsHtml()}</select>
+              </div>
+              <div class="addr-row addr-extra" id="${addrId}-extra2" style="display:none;">
+                <label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label>
+                <input type="text" class="addr-inp">
+              </div>
+              <div class="addr-row addr-extra" id="${addrId}-extra" style="display:none;">
+                <label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label>
+                <input type="text" class="addr-inp">
+              </div>
+              <div class="addr-row addr-extra" id="${addrId}-extra3" style="display:none;">
+                <label class="addr-lbl">Pasta indekss</label>
+                <input type="text" class="addr-inp n">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    wrap.appendChild(d);
+  });
+})();
+
+function rmB(id) { const e = document.getElementById('bc'+id); if(e) e.remove(); }
+function addDoc(listId) {
+  const lst = document.getElementById(listId || 'dlist');
+  const d = document.createElement('div'); d.className='doc-card';
+  d.innerHTML=`
+    <div class="stk-field">
+      <div class="stk-lbl">Dokumenta nosaukums <span class="r">*</span></div>
+      <input type="text" placeholder="Dokumenta nosaukums">
+    </div>
+    <div class="stk-field">
+      <div class="stk-lbl">Apraksts</div>
+      <input type="text" placeholder="Apraksts">
+    </div>
+    <button class="btn-doc-del" type="button" onclick="rmDoc(this)">Dzēst pievienoto dokumentu</button>`;
+  lst.appendChild(d);
+}
+function rmDoc(btn) {
+  btn.closest('.doc-card').remove();
+}
+function sub() {
+  if(!document.getElementById('cb-vecaki').checked || !document.getElementById('cb-patiesa').checked){
+    alert('Lūdzu apstipriniet visus nepieciešamos apliecinājumus.');
+    return;
+  }
+  alert('Iesniegums iesniegts. Pārejam uz 3. soli.');
+}
+
+// initial visibility state
+updateVisibility();
+</script>
+</body>
+</html>
