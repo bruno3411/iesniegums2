@@ -432,25 +432,16 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 
       <div class="check-opt" style="margin-bottom:6px;">
         <input type="checkbox" id="cb-visiem-berniem" onchange="toggleDzVisiemBerniem(this)">
-        <label for="cb-visiem-berniem">Visiem bērniem reģistrēt vienu un to pašu dzīvesvietas adresi ārvalstī</label>
+        <label for="cb-visiem-berniem">Visiem reģistrēt vienu un to pašu dzīvesvietas adresi ārvalstī</label>
       </div>
-      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:22px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Ja iesniedzējs atzīmē šo izvēli, tad piedāvā adresi ievadīt vienu reizi un tā tiek pieregistrēta visiem bērniem. Ja iesniedzējs neatzīmē šo izvēli, tad adresi jāievada katram izvēlētajam bērnam.</div>
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:22px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Ja iesniedzējs atzīmē šo izvēli, tad piedāvā adresi ievadīt vienu reizi un tā tiek pieregistrēta visām izvēlētajām personām. Ja iesniedzējs neatzīmē šo izvēli, tad adresi jāievada katrai izvēlētajai personai atsevišķi.</div>
 
-      <div id="dzIndividualSection">
-        <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
-        <div class="pakalp-list" id="dzPersonSelectList"></div>
+      <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
+      <div class="pakalp-list" id="dzPersonSelectList"></div>
 
-        <div id="dzPersonBlocksArea"></div>
-      </div>
+      <div id="dzPersonBlocksArea"></div>
 
-      <div id="dzSharedSection" style="display:none;">
-        <div class="addr-fields">
-          <div class="addr-row"><label class="addr-lbl">Valsts <span class="r">*</span></label><select class="addr-inp m" id="dzShared-valsts"></select></div>
-          <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="dzShared-pilseta"></div>
-          <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="dzShared-iela"></div>
-          <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="dzShared-pasta"></div>
-        </div>
-      </div>
+      <div id="dzSharedSection" style="display:none;"></div>
 
       <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
@@ -839,26 +830,75 @@ const DZ_PEOPLE = [
   renderDzPersonBlocks();
 })();
 
-document.getElementById('dzShared-valsts').innerHTML = euOptionsHtml();
-
 function toggleDzVisiemBerniem(cb) {
-  const individualSection = document.getElementById('dzIndividualSection');
+  const blocksArea = document.getElementById('dzPersonBlocksArea');
   const sharedSection = document.getElementById('dzSharedSection');
   if (cb.checked) {
-    individualSection.style.display = 'none';
+    blocksArea.style.display = 'none';
     sharedSection.style.display = 'block';
+    if (!sharedSection.dataset.built) {
+      sharedSection.innerHTML = dzAddrEntryHtml('dzShared');
+      sharedSection.dataset.built = '1';
+    }
   } else {
-    individualSection.style.display = 'block';
+    blocksArea.style.display = 'block';
     sharedSection.style.display = 'none';
   }
 }
 
-function dzAddrFieldsHtml(pid) {
+/* Generic address-entry block: Valsts field, then "Reģistrēt manuāli" / "Pieprasīt apliecinājumu tiešsaistē no ES" buttons,
+   then (only in manual mode) Pilsēta/reģions, Iela mājas Nr., Pasta indekss. */
+function dzAddrEntryHtml(prefix) {
   return `
-    <div class="addr-row"><label class="addr-lbl">Valsts <span class="r">*</span></label><select class="addr-inp m" id="${pid}-valsts">${euOptionsHtml()}</select></div>
-    <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="${pid}-pilseta"></div>
-    <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="${pid}-iela"></div>
-    <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="${pid}-pasta"></div>`;
+    <div class="fr">
+      <div class="fl">Valsts <span class="r">*</span></div>
+      <div class="fv"><select class="addr-inp m" id="${prefix}-valsts">${euOptionsHtml()}</select></div>
+    </div>
+    <div class="addr-mode-btns" id="${prefix}-btns">
+      <button type="button" class="btn-addr-manual selected" onclick="dzShowManual('${prefix}')">Reģistrēt manuāli</button>
+      <button type="button" class="btn-addr-ootis" onclick="dzRequestOotis('${prefix}', this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
+    </div>
+    <div id="${prefix}-manualFields">
+      <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="${prefix}-pilseta"></div>
+      <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="${prefix}-iela"></div>
+      <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="${prefix}-pasta"></div>
+    </div>
+    <div id="${prefix}-ootisResult"></div>`;
+}
+
+function dzShowManual(prefix) {
+  const btns = document.getElementById(prefix + '-btns');
+  btns.querySelector('.btn-addr-manual').classList.add('selected');
+  btns.querySelector('.btn-addr-ootis').classList.remove('selected');
+  document.getElementById(prefix + '-manualFields').style.display = 'block';
+  const res = document.getElementById(prefix + '-ootisResult');
+  if (res) res.innerHTML = '';
+}
+
+function dzRequestOotis(prefix, btn) {
+  const btns = document.getElementById(prefix + '-btns');
+  btns.querySelector('.btn-addr-manual').classList.remove('selected');
+  btn.classList.add('selected');
+  document.getElementById(prefix + '-manualFields').style.display = 'none';
+  const resultDiv = document.getElementById(prefix + '-ootisResult');
+  resultDiv.innerHTML = '<div class="ootis-result">Ielādē...</div>';
+  setTimeout(() => {
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2,'0');
+    const mm = String(now.getMonth()+1).padStart(2,'0');
+    const yyyy = now.getFullYear();
+    const fname = 'ootis_' + yyyy + mm + dd + '.pdf';
+    resultDiv.innerHTML = '<div class="ootis-result">Saņemtais dokuments no OOTIS: <strong>' + fname + '</strong>' +
+      '<div class="ootis-doc-btns">' +
+      '<button type="button" class="btn-doc-view" onclick="apskatitDokumentu(this)">Apskatīt dokumentu</button>' +
+      '<button type="button" class="btn-doc-del" onclick="dzDeleteOotisDoc(\'' + prefix + '\')">Dzēst dokumentu</button>' +
+      '</div></div>';
+  }, 800);
+}
+
+function dzDeleteOotisDoc(prefix) {
+  document.getElementById(prefix + '-ootisResult').innerHTML = '';
+  dzShowManual(prefix);
 }
 
 function buildDzPersonBlock(p) {
@@ -872,54 +912,13 @@ function buildDzPersonBlock(p) {
     <div class="pb-sub-h">Pašreiz reģistrētās adreses:</div>
     <div class="pb-addr-line">PMLP reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
     <div class="pb-addr-line" style="margin-bottom:16px;">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
-    <div class="pb-q">Kā norādīsiet jauno adresi? <span class="r">*</span></div>
-    <div class="pb-radio-grp">
-      <label class="pb-radio-opt"><input type="radio" name="dzMode-${p.id}" value="manual" checked onchange="dzModeChange('${p.id}')"> Ievadīt adresi manuāli</label>
-      <label class="pb-radio-opt"><input type="radio" name="dzMode-${p.id}" value="ootis" onchange="dzModeChange('${p.id}')"> Pieprasīt apliecinājumu tiešsaistē no ES</label>
-    </div>
-    <div id="${p.id}-manual" class="addr-fields">${dzAddrFieldsHtml(p.id)}</div>
-    <div id="${p.id}-ootis" style="display:none;"></div>
+    <div class="pb-q">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
+    ${dzAddrEntryHtml(p.id)}
     <hr class="dv pb-block-sep">
     <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
     <div id="dlist-${p.id}"></div>
     <button class="btn-add" type="button" onclick="addDoc('dlist-${p.id}')" style="margin-top:4px;">+ Pievienot dokumentu</button>`;
   return d;
-}
-
-function dzModeChange(pid) {
-  const manualDiv = document.getElementById(pid + '-manual');
-  const ootisDiv = document.getElementById(pid + '-ootis');
-  const mode = document.querySelector(`input[name="dzMode-${pid}"]:checked`).value;
-  if (mode === 'manual') {
-    manualDiv.style.display = 'block';
-    ootisDiv.style.display = 'none';
-    ootisDiv.innerHTML = '';
-  } else {
-    manualDiv.style.display = 'none';
-    ootisDiv.style.display = 'block';
-    ootisDiv.innerHTML = '<div class="ootis-result">Ielādē...</div>';
-    setTimeout(() => {
-      const now = new Date();
-      const dd = String(now.getDate()).padStart(2,'0');
-      const mm = String(now.getMonth()+1).padStart(2,'0');
-      const yyyy = now.getFullYear();
-      const fname = 'ootis_' + yyyy + mm + dd + '.pdf';
-      ootisDiv.innerHTML = 'Saņemtais dokuments no OOTIS: <strong>' + fname + '</strong>' +
-        '<div class="ootis-doc-btns">' +
-        '<button type="button" class="btn-doc-view" onclick="apskatitDokumentu(this)">Apskatīt dokumentu</button>' +
-        '<button type="button" class="btn-doc-del" onclick="dzestDokumentuDz(\'' + pid + '\')">Dzēst dokumentu</button>' +
-        '</div>';
-      ootisDiv.className = 'ootis-result';
-    }, 800);
-  }
-}
-
-function dzestDokumentuDz(pid) {
-  const ootisDiv = document.getElementById(pid + '-ootis');
-  ootisDiv.innerHTML = '';
-  ootisDiv.className = '';
-  const manualRadio = document.querySelector(`input[name="dzMode-${pid}"][value="manual"]`);
-  if (manualRadio) { manualRadio.checked = true; dzModeChange(pid); }
 }
 
 function renderDzPersonBlocks() {
