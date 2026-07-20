@@ -236,6 +236,18 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 .btn-saglabat { margin: 4px 0 14px 0; padding: 8px 22px; border-radius: 20px; border: 1.5px solid #c8a84b; background: #fff; color: #8b7020; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; }
 .btn-saglabat:hover { background: #fdf9ec; }
 
+/* DZĪVESVIETA — per-person block (image 4 style) */
+.person-block { border: 1px solid #ddd; border-radius: 12px; padding: 18px 20px 22px; margin-top: 16px; background: #fff; }
+.person-block-title { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 12px; }
+.pb-sub-h { font-size: 13px; font-weight: 700; color: #333; margin-bottom: 6px; }
+.pb-addr-line { font-size: 13px; color: #333; margin-bottom: 3px; }
+.pb-addr-line strong { color: #444; }
+.pb-block-sep { margin: 16px 0 12px; }
+.pb-q { font-size: 13.5px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
+.pb-radio-grp { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.pb-radio-opt { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: #222; cursor: pointer; }
+.pb-radio-opt input[type=radio] { width: 18px; height: 18px; accent-color: #8b1a2e; cursor: pointer; flex-shrink: 0; }
+
 .ootis-result { font-size: 13.5px; color: #222; padding: 8px 0 4px; }
 .ootis-result strong { color: #8b1a2e; }
 .ootis-doc-btns { display: flex; gap: 10px; margin-top: 10px; }
@@ -418,116 +430,10 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
       <div class="chg-card-title">Dzīvesvieta</div>
       <div class="chg-card-desc">Savas un/vai bērna/-u dzīvesvietas ārvalstī maiņu (norādīt pilnu adresi, ja bērna dzīvesvietas adrese atšķiras no iesniedzēja adreses un Latvijā par bērnu saņem pabalstus vai pensiju).</div>
 
-      <div class="check-opt" style="margin-bottom:6px;">
-        <input type="checkbox" id="cb-visiem-berniem" onchange="toggleVisiemBerniem(this)">
-        <label for="cb-visiem-berniem">Visiem bērniem reģistrēt vienu un to pašu dzīvesvietas adresi ārvalstī</label>
-      </div>
-      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:20px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Ja iesniedzējs atzīmē šo izvēli, tad piedāvā adresi ievadīt vienu reizi un tā tiek pieregistrēta visiem bērniem. Ja iesniedzējs neatzīmē šo izvēli, tad adresi jāievada katram izvēlētajam bērnam.</div>
+      <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
+      <div class="pakalp-list" id="dzPersonSelectList"></div>
 
-      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:16px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Atveriet ierakstu, par kuru vēlaties norādīt dzīvesvietas adresi.</div>
-
-      <!-- SELF -->
-      <div class="study-card" id="dz-self">
-        <div class="study-head" onclick="toggleStudy('dz-self')">
-          <div class="study-title">Jānis Bērziņš <span class="sub">(par sevi)</span></div>
-          <span class="study-chev">˅</span>
-        </div>
-        <div class="study-body">
-          <div style="font-size:13.5px;color:#333;line-height:1.9;margin:14px 0 16px;">
-            <div>PMLP reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
-            <div>VSAA reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
-          </div>
-          <div class="fr">
-            <div class="fl">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
-            <div class="fv">
-              <div class="addr-fields" id="addr1">
-                <div class="addr-mode-btns" id="addr1-btns">
-                  <button type="button" class="btn-addr-manual" onclick="showManual('addr1')">Reģistrēt manuāli</button>
-                  <button type="button" class="btn-addr-ootis" onclick="pieprasitOOTIS(this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
-                </div>
-                <div class="addr-row addr-extra" id="addr1-extra0" style="display:none;">
-                  <label class="addr-lbl">Valsts <span class="r">*</span></label>
-                  <select class="addr-inp m">
-<option value="" disabled selected>Izvēlieties valsti</option>
-                    <option value="Austrija">Austrija</option>
-                    <option value="Beļģija">Beļģija</option>
-                    <option value="Bulgārija">Bulgārija</option>
-                    <option value="Čehija">Čehija</option>
-                    <option value="Dānija">Dānija</option>
-                    <option value="Igaunija">Igaunija</option>
-                    <option value="Somija">Somija</option>
-                    <option value="Francija">Francija</option>
-                    <option value="Vācija">Vācija</option>
-                    <option value="Grieķija">Grieķija</option>
-                    <option value="Ungārija">Ungārija</option>
-                    <option value="Īrija">Īrija</option>
-                    <option value="Itālija">Itālija</option>
-                    <option value="Kipra">Kipra</option>
-                    <option value="Lietuva">Lietuva</option>
-                    <option value="Luksemburga">Luksemburga</option>
-                    <option value="Malta">Malta</option>
-                    <option value="Nīderlande">Nīderlande</option>
-                    <option value="Polija">Polija</option>
-                    <option value="Portugāle">Portugāle</option>
-                    <option value="Rumānija">Rumānija</option>
-                    <option value="Slovākija">Slovākija</option>
-                    <option value="Slovēnija">Slovēnija</option>
-                    <option value="Spānija">Spānija</option>
-                    <option value="Zviedrija">Zviedrija</option>
-                  </select>
-                </div>
-                <div class="addr-row addr-extra" id="addr1-extra00" style="display:none;">
-                  <label class="addr-lbl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</label>
-                  <input type="text" class="addr-inp m">
-                </div>
-                <div class="addr-row addr-extra" id="addr1-extra" style="display:none;">
-                  <label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label>
-                  <input type="text" class="addr-inp">
-                </div>
-                <div class="addr-row addr-extra" id="addr1-extra2" style="display:none;">
-                  <label class="addr-lbl">Pilsēta/pagasts, novads <span class="r">*</span></label>
-                  <input type="text" class="addr-inp">
-                </div>
-                <div class="addr-row addr-extra" id="addr1-extra3" style="display:none;">
-                  <label class="addr-lbl">Pasta indekss</label>
-                  <input type="text" class="addr-inp n">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SHARED ADDRESS MODE (visible when "Visiem bērniem" checkbox above is checked) -->
-      <div id="sharedBlock" style="display:none;">
-        <div class="stk-field">
-          <div class="stk-lbl">Izvēlieties bērnus <span class="r">*</span></div>
-          <div class="pakalp-list" id="sharedChildrenList">
-            <label class="pakalp-opt"><input type="checkbox" class="shared-child-cb" value="030512-12345|Jānis|Bērziņš"> 030512-12345 – Bērziņš Jānis</label>
-            <label class="pakalp-opt"><input type="checkbox" class="shared-child-cb" value="150819-54321|Anna|Kalniņa"> 150819-54321 – Kalniņa Anna</label>
-            <label class="pakalp-opt"><input type="checkbox" class="shared-child-cb" value="220310-98765|Mārtiņš|Ozoliņš"> 220310-98765 – Ozoliņš Mārtiņš</label>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="fl">Bērna/-u jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
-          <div class="fv" style="max-width:100%;">
-            <div class="addr-fields" id="sharedAddr">
-              <div class="addr-row"><label class="addr-lbl">Valsts <span class="r">*</span></label><select class="addr-inp m" id="sharedValsts"></select></div>
-              <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="sharedPilseta"></div>
-              <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="sharedIela"></div>
-              <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="sharedPasta"></div>
-            </div>
-          </div>
-        </div>
-        <button class="btn-saglabat" type="button" onclick="saglabatSharedBerni()">Saglabāt</button>
-      </div>
-
-      <div id="blist"></div>
-
-      <!-- INDIVIDUAL ADDRESS MODE (visible when "Visiem bērniem" checkbox above is unchecked) — each child as its own expandable entry, same as izglītības sadaļā -->
-      <div id="individualBlock">
-        <div id="individualChildren"></div>
-      </div>
+      <div id="dzPersonBlocksArea"></div>
 
       <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
@@ -811,7 +717,6 @@ function euOptionsHtml() {
   EU_VALSTIS.forEach(v => { opts += '<option value="'+v+'">'+v+'</option>'; });
   return opts;
 }
-document.getElementById('sharedValsts').innerHTML = euOptionsHtml();
 
 /* SELECTION -> CARD VISIBILITY */
 function updateVisibility() {
@@ -898,59 +803,107 @@ function toggleStudy(id) {
   document.getElementById(id).classList.toggle('open');
 }
 
-function toggleVisiemBerniem(cb) {
-  const sharedBlock = document.getElementById('sharedBlock');
-  const individualBlock = document.getElementById('individualBlock');
-  const blist = document.getElementById('blist');
-  blist.innerHTML = '';
-  if (cb.checked) {
-    sharedBlock.style.display = 'block';
-    individualBlock.style.display = 'none';
+const DZ_PEOPLE = [
+  { id: 'dz-self', label: 'Jānis Bērziņš (par sevi)', selfPerson: true },
+  { id: 'dz-c0', pk: '030512-12345', vards: 'Jānis', uzvards: 'Bērziņš' },
+  { id: 'dz-c1', pk: '150819-54321', vards: 'Anna', uzvards: 'Kalniņa' },
+  { id: 'dz-c2', pk: '220310-98765', vards: 'Mārtiņš', uzvards: 'Ozoliņš' }
+];
+
+(function renderDzPersonSelect(){
+  const wrap = document.getElementById('dzPersonSelectList');
+  DZ_PEOPLE.forEach(p => {
+    const label = p.selfPerson ? p.label : `${p.vards} ${p.uzvards} (personas kods: ${p.pk})`;
+    const lbl = document.createElement('label');
+    lbl.className = 'pakalp-opt';
+    lbl.innerHTML = `<input type="checkbox" class="dz-person-cb" data-pid="${p.id}" onchange="renderDzPersonBlocks()" ${p.selfPerson ? 'checked' : ''}> ${label}`;
+    wrap.appendChild(lbl);
+  });
+  renderDzPersonBlocks();
+})();
+
+function dzAddrFieldsHtml(pid) {
+  return `
+    <div class="addr-row"><label class="addr-lbl">Valsts <span class="r">*</span></label><select class="addr-inp m" id="${pid}-valsts">${euOptionsHtml()}</select></div>
+    <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="${pid}-pilseta"></div>
+    <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="${pid}-iela"></div>
+    <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="${pid}-pasta"></div>`;
+}
+
+function buildDzPersonBlock(p) {
+  const label = p.selfPerson ? p.label : `${p.vards} ${p.uzvards} (personas kods: ${p.pk})`;
+  const d = document.createElement('div');
+  d.className = 'person-block';
+  d.id = 'pblock-' + p.id;
+  d.dataset.pid = p.id;
+  d.innerHTML = `
+    <div class="person-block-title">${label}</div>
+    <div class="pb-sub-h">Pašreiz reģistrētās adreses:</div>
+    <div class="pb-addr-line">PMLP reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
+    <div class="pb-addr-line" style="margin-bottom:16px;">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
+    <div class="pb-q">Kā norādīsiet jauno adresi? <span class="r">*</span></div>
+    <div class="pb-radio-grp">
+      <label class="pb-radio-opt"><input type="radio" name="dzMode-${p.id}" value="manual" checked onchange="dzModeChange('${p.id}')"> Ievadīt adresi manuāli</label>
+      <label class="pb-radio-opt"><input type="radio" name="dzMode-${p.id}" value="ootis" onchange="dzModeChange('${p.id}')"> Pieprasīt apliecinājumu tiešsaistē no ES</label>
+    </div>
+    <div id="${p.id}-manual" class="addr-fields">${dzAddrFieldsHtml(p.id)}</div>
+    <div id="${p.id}-ootis" style="display:none;"></div>
+    <hr class="dv pb-block-sep">
+    <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+    <div id="dlist-${p.id}"></div>
+    <button class="btn-add" type="button" onclick="addDoc('dlist-${p.id}')" style="margin-top:4px;">+ Pievienot dokumentu</button>`;
+  return d;
+}
+
+function dzModeChange(pid) {
+  const manualDiv = document.getElementById(pid + '-manual');
+  const ootisDiv = document.getElementById(pid + '-ootis');
+  const mode = document.querySelector(`input[name="dzMode-${pid}"]:checked`).value;
+  if (mode === 'manual') {
+    manualDiv.style.display = 'block';
+    ootisDiv.style.display = 'none';
+    ootisDiv.innerHTML = '';
   } else {
-    sharedBlock.style.display = 'none';
-    individualBlock.style.display = 'block';
-    document.querySelectorAll('.shared-child-cb').forEach(c => c.checked = false);
+    manualDiv.style.display = 'none';
+    ootisDiv.style.display = 'block';
+    ootisDiv.innerHTML = '<div class="ootis-result">Ielādē...</div>';
+    setTimeout(() => {
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2,'0');
+      const mm = String(now.getMonth()+1).padStart(2,'0');
+      const yyyy = now.getFullYear();
+      const fname = 'ootis_' + yyyy + mm + dd + '.pdf';
+      ootisDiv.innerHTML = 'Saņemtais dokuments no OOTIS: <strong>' + fname + '</strong>' +
+        '<div class="ootis-doc-btns">' +
+        '<button type="button" class="btn-doc-view" onclick="apskatitDokumentu(this)">Apskatīt dokumentu</button>' +
+        '<button type="button" class="btn-doc-del" onclick="dzestDokumentuDz(\'' + pid + '\')">Dzēst dokumentu</button>' +
+        '</div>';
+      ootisDiv.className = 'ootis-result';
+    }, 800);
   }
 }
 
-function saglabatSharedBerni() {
-  const checked = Array.from(document.querySelectorAll('.shared-child-cb:checked'));
-  if (checked.length === 0) {
-    alert('Lūdzu izvēlieties vismaz vienu bērnu.');
-    return;
-  }
-  const valsts = document.getElementById('sharedValsts').value;
-  const pilseta = document.getElementById('sharedPilseta').value.trim();
-  const iela = document.getElementById('sharedIela').value.trim();
-  const pasta = document.getElementById('sharedPasta').value.trim();
-  if (!valsts || !pilseta || !iela) {
-    alert('Lūdzu aizpildiet obligātos adreses laukus.');
-    return;
-  }
-  const adreseParts = [valsts, pilseta, iela];
-  if (pasta) adreseParts.push(pasta);
-  const adrese = adreseParts.join(', ');
+function dzestDokumentuDz(pid) {
+  const ootisDiv = document.getElementById(pid + '-ootis');
+  ootisDiv.innerHTML = '';
+  ootisDiv.className = '';
+  const manualRadio = document.querySelector(`input[name="dzMode-${pid}"][value="manual"]`);
+  if (manualRadio) { manualRadio.checked = true; dzModeChange(pid); }
+}
 
-  const lst = document.getElementById('blist');
-  checked.forEach(cbEl => {
-    const parts = cbEl.value.split('|');
-    bc++;
-    const id = bc;
-    const d = document.createElement('div');
-    d.className = 'berns-card'; d.id = 'bc' + id;
-    d.innerHTML = `
-      <div class="berns-summary2" id="bc${id}-summary">
-        <div class="bs2-row1">
-          <span><strong>Personas kods:</strong> ${parts[0]}</span>
-          <span><strong>Vārds:</strong> ${parts[1]}</span>
-          <span><strong>Uzvārds:</strong> ${parts[2]}</span>
-        </div>
-        <div class="bs2-row2">
-          <span><strong>Adrese:</strong> ${adrese}</span>
-          <button class="btn-dzest" onclick="rmB(${id})">Dzēst</button>
-        </div>
-      </div>`;
-    lst.appendChild(d);
+function renderDzPersonBlocks() {
+  const checked = Array.from(document.querySelectorAll('.dz-person-cb')).filter(cb => cb.checked);
+  const area = document.getElementById('dzPersonBlocksArea');
+  const checkedIds = new Set(checked.map(cb => cb.dataset.pid));
+  Array.from(area.children).forEach(child => {
+    if (!checkedIds.has(child.dataset.pid)) child.remove();
+  });
+  checked.forEach(cb => {
+    const pid = cb.dataset.pid;
+    if (!document.getElementById('pblock-' + pid)) {
+      const person = DZ_PEOPLE.find(p => p.id === pid);
+      if (person) area.appendChild(buildDzPersonBlock(person));
+    }
   });
 }
 
@@ -961,138 +914,10 @@ function toggleAcc(el) {
   caret.classList.toggle('rot', isOpen);
 }
 
-function pieprasitOOTIS(btn) {
-  btn.classList.add('selected');
-  const btnsDiv = btn.parentElement;
-  const addrFields = btnsDiv.parentElement;
-  const prefix = addrFields.id;
-  // Hide extra address rows
-  ['extra0','extra00','extra','extra2','extra3'].forEach(s => {
-    const el = document.getElementById(prefix + '-' + s);
-    if (el) el.style.display = 'none';
-  });
-  // Remove any existing result block
-  const existingRes = addrFields.querySelector('.ootis-result');
-  if (existingRes) existingRes.remove();
-  btn.textContent = 'Ielādē...';
-  btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = 'Pieprasīt apliecinājumu tiešsaistē no ES';
-    btn.disabled = false;
-    const now = new Date();
-    const dd = String(now.getDate()).padStart(2,'0');
-    const mm = String(now.getMonth()+1).padStart(2,'0');
-    const yyyy = now.getFullYear();
-    const fname = 'ootis_' + yyyy + mm + dd + '.pdf';
-    const result = document.createElement('div');
-    result.className = 'ootis-result';
-    result.innerHTML = 'Saņemtais dokuments no OOTIS: <strong>' + fname + '</strong>' +
-      '<div class="ootis-doc-btns">' +
-      '<button type="button" class="btn-doc-view" onclick="apskatitDokumentu(this)">Apskatīt dokumentu</button>' +
-      '<button type="button" class="btn-doc-del" onclick="dzestDokumentu(this)">Dzēst dokumentu</button>' +
-      '</div>';
-    addrFields.appendChild(result);
-  }, 800);
-}
-
 function apskatitDokumentu(btn) {
   alert('Dokumenta priekšskatījums tiktu atvērts jaunā logā.');
 }
 
-function dzestDokumentu(btn) {
-  const resultDiv = btn.closest('.ootis-result');
-  const addrFields = resultDiv.parentElement;
-  const prefix = addrFields.id;
-  resultDiv.remove();
-  const otisBtn = document.querySelector('#' + prefix + '-btns .btn-addr-ootis');
-  if (otisBtn) otisBtn.classList.remove('selected');
-}
-
-function showManual(prefix) {
-  const extra0 = document.getElementById(prefix + '-extra0');
-  const extra00 = document.getElementById(prefix + '-extra00');
-  const extra1 = document.getElementById(prefix + '-extra');
-  const extra2 = document.getElementById(prefix + '-extra2');
-  const extra3 = document.getElementById(prefix + '-extra3');
-  const btns = document.getElementById(prefix + '-btns');
-  if (extra0) extra0.style.display = 'flex';
-  if (extra00) extra00.style.display = 'flex';
-  if (extra1) extra1.style.display = 'flex';
-  if (extra2) extra2.style.display = 'flex';
-  if (extra3) extra3.style.display = 'flex';
-  const addrFields = document.getElementById(prefix);
-  if (addrFields) {
-    const prov = addrFields.querySelector('.ootis-provider');
-    if (prov) prov.remove();
-    const res = addrFields.querySelector('.ootis-result');
-    if (res) res.remove();
-  }
-  if (btns) {
-    const manualBtn = btns.querySelector('.btn-addr-manual');
-    if (manualBtn) manualBtn.classList.add('selected');
-    const ootisBtn = btns.querySelector('.btn-addr-ootis');
-    if (ootisBtn) ootisBtn.classList.remove('selected');
-  }
-}
-
-let bc = 0;
-
-const B2_BERNI = [
-  ['030512-12345','Jānis','Bērziņš'],
-  ['150819-54321','Anna','Kalniņa'],
-  ['220310-98765','Mārtiņš','Ozoliņš']
-];
-(function renderIndividualChildren(){
-  const wrap = document.getElementById('individualChildren');
-  B2_BERNI.forEach((b, i) => {
-    const [pk, vards, uzvards] = b;
-    const cardId = 'ic' + i;
-    const addrId = 'caddr' + i;
-    const d = document.createElement('div');
-    d.className = 'study-card'; d.id = cardId;
-    d.innerHTML = `
-      <div class="study-head" onclick="toggleStudy('${cardId}')">
-        <div class="study-title">${vards} ${uzvards} <span class="sub">(personas kods: ${pk})</span></div>
-        <span class="study-chev">˅</span>
-      </div>
-      <div class="study-body">
-        <div style="font-size:13.5px;color:#333;line-height:1.9;margin:14px 0 16px;">
-          <div>PMLP reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
-          <div>VSAA reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
-        </div>
-        <div class="fr">
-          <div class="fl">bērna dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
-          <div class="fv" style="max-width:100%;">
-            <div class="addr-fields" id="${addrId}">
-              <div class="addr-mode-btns" id="${addrId}-btns">
-                <button type="button" class="btn-addr-manual" onclick="showManual('${addrId}')">Reģistrēt manuāli</button>
-                <button type="button" class="btn-addr-ootis" onclick="pieprasitOOTIS(this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
-              </div>
-              <div class="addr-row addr-extra" id="${addrId}-extra0" style="display:none;">
-                <label class="addr-lbl">Valsts <span class="r">*</span></label>
-                <select class="addr-inp m">${euOptionsHtml()}</select>
-              </div>
-              <div class="addr-row addr-extra" id="${addrId}-extra2" style="display:none;">
-                <label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label>
-                <input type="text" class="addr-inp">
-              </div>
-              <div class="addr-row addr-extra" id="${addrId}-extra" style="display:none;">
-                <label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label>
-                <input type="text" class="addr-inp">
-              </div>
-              <div class="addr-row addr-extra" id="${addrId}-extra3" style="display:none;">
-                <label class="addr-lbl">Pasta indekss</label>
-                <input type="text" class="addr-inp n">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`;
-    wrap.appendChild(d);
-  });
-})();
-
-function rmB(id) { const e = document.getElementById('bc'+id); if(e) e.remove(); }
 function addDoc(listId) {
   const lst = document.getElementById(listId || 'dlist');
   const d = document.createElement('div'); d.className='doc-card';
