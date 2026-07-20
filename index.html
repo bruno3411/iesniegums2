@@ -601,57 +601,11 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
     <div class="chg-card" id="card-izgl">
       <div class="chg-card-title">Izglītība</div>
       <div class="chg-card-desc">Mācībām citā valstī (aizpilda, ja saņem apgādnieka zaudējuma pensiju par sevi vai bērnu vai pabalstus par bērnu).</div>
-      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:16px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Atveriet ierakstu, par kuru vēlaties norādīt mācību informāciju.</div>
 
-      <div class="study-card" id="st-self">
-        <div class="study-head" onclick="toggleStudy('st-self')">
-          <div class="study-title">Jānis Bērziņš <span class="sub">(par sevi)</span></div>
-          <span class="study-chev">˅</span>
-        </div>
-        <div class="study-body">
-          <div class="fr">
-            <div class="fl">valsts <span class="r">*</span></div>
-            <div class="fv"><select class="addr-inp m" id="st-self-valsts"></select></div>
-          </div>
-          <div class="fr">
-            <div class="fl">mācību iestāde <span class="r">*</span></div>
-            <div class="fv"><input type="text"><div class="hint">(iesniedzējs manuāli ievada izglītības iestādes nosaukumu)</div></div>
-          </div>
-          <div class="fr">
-            <div class="fl">izglītības veids <span class="r">*</span></div>
-            <div class="fv">
-              <select class="m">
-                <option value="" disabled selected>Izvēlieties</option>
-                <option value="pamata">Pamatizglītība</option>
-                <option value="videja">Vidējā izglītība</option>
-                <option value="profesionala">Profesionālā izglītība</option>
-                <option value="augstaka">Augstākā izglītība</option>
-              </select>
-            </div>
-          </div>
-          <div class="fr">
-            <div class="fl">izglītības forma <span class="r">*</span></div>
-            <div class="fv">
-              <select class="m">
-                <option value="" disabled selected>Izvēlieties</option>
-                <option value="klatiene">Klātiene</option>
-                <option value="neklatiene">Neklātiene</option>
-                <option value="talmaciba">Tālmācība</option>
-              </select>
-            </div>
-          </div>
-          <div class="fr">
-            <div class="fl">sākuma datums <span class="r">*</span></div>
-            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-          </div>
-          <div class="fr">
-            <div class="fl">beigu datums (ja tāds ir)</div>
-            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-          </div>
-        </div>
-      </div>
+      <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
+      <div class="pakalp-list" id="izPersonSelectList"></div>
 
-      <div id="studyChildren"></div>
+      <div id="izPersonBlocksArea"></div>
 
       <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
@@ -744,71 +698,89 @@ function updateVisibility() {
   });
 }
 
-const STUDY_BERNI = [
-  ['030512-12345','Jānis','Bērziņš'],
-  ['150819-54321','Anna','Kalniņa'],
-  ['220310-98765','Mārtiņš','Ozoliņš']
+const IZ_PEOPLE = [
+  { id: 'iz-self', label: 'Jānis Bērziņš (par sevi)', selfPerson: true },
+  { id: 'iz-c0', pk: '030512-12345', vards: 'Jānis', uzvards: 'Bērziņš' },
+  { id: 'iz-c1', pk: '150819-54321', vards: 'Anna', uzvards: 'Kalniņa' },
+  { id: 'iz-c2', pk: '220310-98765', vards: 'Mārtiņš', uzvards: 'Ozoliņš' }
 ];
-document.getElementById('st-self-valsts').innerHTML = euOptionsHtml();
-(function renderStudyChildren(){
-  const wrap = document.getElementById('studyChildren');
-  STUDY_BERNI.forEach((b, i) => {
-    const [pk, vards, uzvards] = b;
-    const cardId = 'st-child' + i;
-    const d = document.createElement('div');
-    d.className = 'study-card'; d.id = cardId;
-    d.innerHTML = `
-      <div class="study-head" onclick="toggleStudy('${cardId}')">
-        <div class="study-title">${vards} ${uzvards} <span class="sub">(personas kods: ${pk})</span></div>
-        <span class="study-chev">˅</span>
-      </div>
-      <div class="study-body">
-        <div class="fr">
-          <div class="fl">valsts <span class="r">*</span></div>
-          <div class="fv"><select class="addr-inp m" id="${cardId}-valsts">${euOptionsHtml()}</select></div>
-        </div>
-        <div class="fr">
-          <div class="fl">mācību iestāde <span class="r">*</span></div>
-          <div class="fv"><input type="text"><div class="hint">(iesniedzējs manuāli ievada izglītības iestādes nosaukumu)</div></div>
-        </div>
-        <div class="fr">
-          <div class="fl">izglītības veids <span class="r">*</span></div>
-          <div class="fv">
-            <select class="m">
-              <option value="" disabled selected>Izvēlieties</option>
-              <option value="pamata">Pamatizglītība</option>
-              <option value="videja">Vidējā izglītība</option>
-              <option value="profesionala">Profesionālā izglītība</option>
-              <option value="augstaka">Augstākā izglītība</option>
-            </select>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="fl">izglītības forma <span class="r">*</span></div>
-          <div class="fv">
-            <select class="m">
-              <option value="" disabled selected>Izvēlieties</option>
-              <option value="klatiene">Klātiene</option>
-              <option value="neklatiene">Neklātiene</option>
-              <option value="talmaciba">Tālmācība</option>
-            </select>
-          </div>
-        </div>
-        <div class="fr">
-          <div class="fl">sākuma datums <span class="r">*</span></div>
-          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-        </div>
-        <div class="fr">
-          <div class="fl">beigu datums (ja tāds ir)</div>
-          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-        </div>
-      </div>`;
-    wrap.appendChild(d);
+
+(function renderIzPersonSelect(){
+  const wrap = document.getElementById('izPersonSelectList');
+  IZ_PEOPLE.forEach(p => {
+    const label = p.selfPerson ? p.label : `${p.vards} ${p.uzvards} (personas kods: ${p.pk})`;
+    const lbl = document.createElement('label');
+    lbl.className = 'pakalp-opt';
+    lbl.innerHTML = `<input type="checkbox" class="iz-person-cb" data-pid="${p.id}" onchange="renderIzPersonBlocks()" ${p.selfPerson ? 'checked' : ''}> ${label}`;
+    wrap.appendChild(lbl);
   });
+  renderIzPersonBlocks();
 })();
 
-function toggleStudy(id) {
-  document.getElementById(id).classList.toggle('open');
+function buildIzPersonBlock(p) {
+  const label = p.selfPerson ? p.label : `${p.vards} ${p.uzvards} (personas kods: ${p.pk})`;
+  const d = document.createElement('div');
+  d.className = 'person-block';
+  d.id = 'izpblock-' + p.id;
+  d.dataset.pid = p.id;
+  d.innerHTML = `
+    <div class="person-block-title">${label}</div>
+    <div class="fr">
+      <div class="fl">valsts <span class="r">*</span></div>
+      <div class="fv"><select class="addr-inp m" id="${p.id}-valsts">${euOptionsHtml()}</select></div>
+    </div>
+    <div class="fr">
+      <div class="fl">mācību iestāde <span class="r">*</span></div>
+      <div class="fv"><input type="text"><div class="hint">(iesniedzējs manuāli ievada izglītības iestādes nosaukumu)</div></div>
+    </div>
+    <div class="fr">
+      <div class="fl">izglītības veids <span class="r">*</span></div>
+      <div class="fv">
+        <select class="m">
+          <option value="" disabled selected>Izvēlieties</option>
+          <option value="pamata">Pamatizglītība</option>
+          <option value="videja">Vidējā izglītība</option>
+          <option value="profesionala">Profesionālā izglītība</option>
+          <option value="augstaka">Augstākā izglītība</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr">
+      <div class="fl">izglītības forma <span class="r">*</span></div>
+      <div class="fv">
+        <select class="m">
+          <option value="" disabled selected>Izvēlieties</option>
+          <option value="klatiene">Klātiene</option>
+          <option value="neklatiene">Neklātiene</option>
+          <option value="talmaciba">Tālmācība</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr">
+      <div class="fl">sākuma datums <span class="r">*</span></div>
+      <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+    </div>
+    <div class="fr">
+      <div class="fl">beigu datums (ja tāds ir)</div>
+      <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+    </div>`;
+  return d;
+}
+
+function renderIzPersonBlocks() {
+  const checked = Array.from(document.querySelectorAll('.iz-person-cb')).filter(cb => cb.checked);
+  const area = document.getElementById('izPersonBlocksArea');
+  const checkedIds = new Set(checked.map(cb => cb.dataset.pid));
+  Array.from(area.children).forEach(child => {
+    if (!checkedIds.has(child.dataset.pid)) child.remove();
+  });
+  checked.forEach(cb => {
+    const pid = cb.dataset.pid;
+    if (!document.getElementById('izpblock-' + pid)) {
+      const person = IZ_PEOPLE.find(p => p.id === pid);
+      if (person) area.appendChild(buildIzPersonBlock(person));
+    }
+  });
 }
 
 const DZ_PEOPLE = [
