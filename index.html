@@ -413,93 +413,10 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
       <button class="btn-add" type="button" onclick="addDoc('dlist-b1')" style="margin-top:4px;">+ Pievienot dokumentu</button>
     </div>
 
-    <!-- Dzīvesvieta — pati iesniedzēja -->
-    <div class="chg-card" id="card-dzives-1">
+    <!-- Dzīvesvieta (apvienots: pati iesniedzēja + bērni) -->
+    <div class="chg-card" id="card-dzives">
       <div class="chg-card-title">Dzīvesvieta</div>
-      <div class="chg-card-desc">Savas dzīvesvietas ārvalstī maiņu, kuras adrese norādīta šajā iesniegumā.</div>
-
-      <div class="stk-field">
-        <div class="stk-lbl" style="font-weight:400;">PMLP reģistrētā dzīvesvietas adrese</div>
-        <input type="text" readonly style="background:#f9f9f9;color:#555;">
-        <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no Pilsonības un migrācijas lietu pārvaldes reģistra.</div>
-      </div>
-
-      <div class="stk-field">
-        <div class="stk-lbl" style="font-weight:400;">VSAA reģistrētā dzīvesvietas adrese</div>
-        <input type="text" readonly style="background:#f9f9f9;color:#555;">
-        <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no VSAA informācijas sistēmā reģistrētajiem datiem.</div>
-      </div>
-
-      <div class="fr">
-        <div class="fl">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
-        <div class="fv">
-          <div class="addr-fields" id="addr1">
-            <div class="addr-mode-btns" id="addr1-btns">
-              <button type="button" class="btn-addr-manual" onclick="showManual('addr1')">Reģistrēt manuāli</button>
-              <button type="button" class="btn-addr-ootis" onclick="pieprasitOOTIS(this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
-            </div>
-            <div class="addr-row addr-extra" id="addr1-extra0" style="display:none;">
-              <label class="addr-lbl">Valsts <span class="r">*</span></label>
-              <select class="addr-inp m">
-<option value="" disabled selected>Izvēlieties valsti</option>
-                <option value="Austrija">Austrija</option>
-                <option value="Beļģija">Beļģija</option>
-                <option value="Bulgārija">Bulgārija</option>
-                <option value="Čehija">Čehija</option>
-                <option value="Dānija">Dānija</option>
-                <option value="Igaunija">Igaunija</option>
-                <option value="Somija">Somija</option>
-                <option value="Francija">Francija</option>
-                <option value="Vācija">Vācija</option>
-                <option value="Grieķija">Grieķija</option>
-                <option value="Ungārija">Ungārija</option>
-                <option value="Īrija">Īrija</option>
-                <option value="Itālija">Itālija</option>
-                <option value="Kipra">Kipra</option>
-                <option value="Lietuva">Lietuva</option>
-                <option value="Luksemburga">Luksemburga</option>
-                <option value="Malta">Malta</option>
-                <option value="Nīderlande">Nīderlande</option>
-                <option value="Polija">Polija</option>
-                <option value="Portugāle">Portugāle</option>
-                <option value="Rumānija">Rumānija</option>
-                <option value="Slovākija">Slovākija</option>
-                <option value="Slovēnija">Slovēnija</option>
-                <option value="Spānija">Spānija</option>
-                <option value="Zviedrija">Zviedrija</option>
-              </select>
-            </div>
-            <div class="addr-row addr-extra" id="addr1-extra00" style="display:none;">
-              <label class="addr-lbl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</label>
-              <input type="text" class="addr-inp m">
-            </div>
-            <div class="addr-row addr-extra" id="addr1-extra" style="display:none;">
-              <label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label>
-              <input type="text" class="addr-inp">
-            </div>
-            <div class="addr-row addr-extra" id="addr1-extra2" style="display:none;">
-              <label class="addr-lbl">Pilsēta/pagasts, novads <span class="r">*</span></label>
-              <input type="text" class="addr-inp">
-            </div>
-            <div class="addr-row addr-extra" id="addr1-extra3" style="display:none;">
-              <label class="addr-lbl">Pasta indekss</label>
-              <input type="text" class="addr-inp n">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <hr class="dv" style="margin:20px 0 16px;">
-      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
-      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
-      <div id="dlist-b1a"></div>
-      <button class="btn-add" type="button" onclick="addDoc('dlist-b1a')" style="margin-top:4px;">+ Pievienot dokumentu</button>
-    </div>
-
-    <!-- Dzīvesvieta — bērni -->
-    <div class="chg-card" id="card-dzives-2">
-      <div class="chg-card-title">Bērna/-u dzīvesvieta</div>
-      <div class="chg-card-desc">Bērna/-u dzīvesvietas adreses maiņu (norādīt pilnu adresi, ja bērna dzīvesvietas adrese atšķiras no iesniedzēja adreses un Latvijā par bērnu saņem pabalstus vai pensiju).</div>
+      <div class="chg-card-desc">Savas un/vai bērna/-u dzīvesvietas ārvalstī maiņu (norādīt pilnu adresi, ja bērna dzīvesvietas adrese atšķiras no iesniedzēja adreses un Latvijā par bērnu saņem pabalstus vai pensiju).</div>
 
       <div class="check-opt" style="margin-bottom:6px;">
         <input type="checkbox" id="cb-visiem-berniem" onchange="toggleVisiemBerniem(this)">
@@ -507,7 +424,81 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
       </div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:20px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Ja iesniedzējs atzīmē šo izvēli, tad piedāvā adresi ievadīt vienu reizi un tā tiek pieregistrēta visiem bērniem. Ja iesniedzējs neatzīmē šo izvēli, tad adresi jāievada katram izvēlētajam bērnam.</div>
 
-      <!-- SHARED ADDRESS MODE (visible when checkbox above is checked) -->
+      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:16px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Atveriet ierakstu, par kuru vēlaties norādīt dzīvesvietas adresi.</div>
+
+      <!-- SELF -->
+      <div class="study-card" id="dz-self">
+        <div class="study-head" onclick="toggleStudy('dz-self')">
+          <div class="study-title">Jānis Bērziņš <span class="sub">(par sevi)</span></div>
+          <span class="study-chev">˅</span>
+        </div>
+        <div class="study-body">
+          <div style="font-size:13.5px;color:#333;line-height:1.9;margin:14px 0 16px;">
+            <div>PMLP reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
+            <div>VSAA reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
+          </div>
+          <div class="fr">
+            <div class="fl">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
+            <div class="fv">
+              <div class="addr-fields" id="addr1">
+                <div class="addr-mode-btns" id="addr1-btns">
+                  <button type="button" class="btn-addr-manual" onclick="showManual('addr1')">Reģistrēt manuāli</button>
+                  <button type="button" class="btn-addr-ootis" onclick="pieprasitOOTIS(this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
+                </div>
+                <div class="addr-row addr-extra" id="addr1-extra0" style="display:none;">
+                  <label class="addr-lbl">Valsts <span class="r">*</span></label>
+                  <select class="addr-inp m">
+<option value="" disabled selected>Izvēlieties valsti</option>
+                    <option value="Austrija">Austrija</option>
+                    <option value="Beļģija">Beļģija</option>
+                    <option value="Bulgārija">Bulgārija</option>
+                    <option value="Čehija">Čehija</option>
+                    <option value="Dānija">Dānija</option>
+                    <option value="Igaunija">Igaunija</option>
+                    <option value="Somija">Somija</option>
+                    <option value="Francija">Francija</option>
+                    <option value="Vācija">Vācija</option>
+                    <option value="Grieķija">Grieķija</option>
+                    <option value="Ungārija">Ungārija</option>
+                    <option value="Īrija">Īrija</option>
+                    <option value="Itālija">Itālija</option>
+                    <option value="Kipra">Kipra</option>
+                    <option value="Lietuva">Lietuva</option>
+                    <option value="Luksemburga">Luksemburga</option>
+                    <option value="Malta">Malta</option>
+                    <option value="Nīderlande">Nīderlande</option>
+                    <option value="Polija">Polija</option>
+                    <option value="Portugāle">Portugāle</option>
+                    <option value="Rumānija">Rumānija</option>
+                    <option value="Slovākija">Slovākija</option>
+                    <option value="Slovēnija">Slovēnija</option>
+                    <option value="Spānija">Spānija</option>
+                    <option value="Zviedrija">Zviedrija</option>
+                  </select>
+                </div>
+                <div class="addr-row addr-extra" id="addr1-extra00" style="display:none;">
+                  <label class="addr-lbl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</label>
+                  <input type="text" class="addr-inp m">
+                </div>
+                <div class="addr-row addr-extra" id="addr1-extra" style="display:none;">
+                  <label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label>
+                  <input type="text" class="addr-inp">
+                </div>
+                <div class="addr-row addr-extra" id="addr1-extra2" style="display:none;">
+                  <label class="addr-lbl">Pilsēta/pagasts, novads <span class="r">*</span></label>
+                  <input type="text" class="addr-inp">
+                </div>
+                <div class="addr-row addr-extra" id="addr1-extra3" style="display:none;">
+                  <label class="addr-lbl">Pasta indekss</label>
+                  <input type="text" class="addr-inp n">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHARED ADDRESS MODE (visible when "Visiem bērniem" checkbox above is checked) -->
       <div id="sharedBlock" style="display:none;">
         <div class="stk-field">
           <div class="stk-lbl">Izvēlieties bērnus <span class="r">*</span></div>
@@ -533,7 +524,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 
       <div id="blist"></div>
 
-      <!-- INDIVIDUAL ADDRESS MODE (visible when checkbox above is unchecked) -->
+      <!-- INDIVIDUAL ADDRESS MODE (visible when "Visiem bērniem" checkbox above is unchecked) — each child as its own expandable entry, same as izglītības sadaļā -->
       <div id="individualBlock">
         <div id="individualChildren"></div>
       </div>
@@ -541,8 +532,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
       <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
-      <div id="dlist-b2"></div>
-      <button class="btn-add" type="button" onclick="addDoc('dlist-b2')" style="margin-top:4px;">+ Pievienot dokumentu</button>
+      <div id="dlist-b1a"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-b1a')" style="margin-top:4px;">+ Pievienot dokumentu</button>
     </div>
 
     <!-- Sociālie maksājumi -->
@@ -826,7 +817,7 @@ document.getElementById('sharedValsts').innerHTML = euOptionsHtml();
 function updateVisibility() {
   const map = {
     'sel-banka': ['card-banka'],
-    'sel-dzives': ['card-dzives-1', 'card-dzives-2'],
+    'sel-dzives': ['card-dzives'],
     'sel-soc': ['card-soc'],
     'sel-nod': ['card-nod'],
     'sel-izgl': ['card-izgl']
@@ -1065,15 +1056,9 @@ const B2_BERNI = [
         <span class="study-chev">˅</span>
       </div>
       <div class="study-body">
-        <div class="stk-field">
-          <div class="stk-lbl" style="font-weight:400;">PMLP reģistrētā dzīvesvietas adrese</div>
-          <input type="text" readonly style="background:#f9f9f9;color:#555;">
-          <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no Pilsonības un migrācijas lietu pārvaldes reģistra.</div>
-        </div>
-        <div class="stk-field">
-          <div class="stk-lbl" style="font-weight:400;">VSAA reģistrētā dzīvesvietas adrese</div>
-          <input type="text" readonly style="background:#f9f9f9;color:#555;">
-          <div class="stk-help"><span class="hi">i</span>Automātiski aizpildīta informācija no VSAA informācijas sistēmā reģistrētajiem datiem.</div>
+        <div style="font-size:13.5px;color:#333;line-height:1.9;margin:14px 0 16px;">
+          <div>PMLP reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
+          <div>VSAA reģistrētā dzīvesvietas adrese: <strong style="color:#555;">—</strong></div>
         </div>
         <div class="fr">
           <div class="fl">bērna dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
