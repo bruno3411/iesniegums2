@@ -436,12 +436,21 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
       </div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:22px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Ja iesniedzējs atzīmē šo izvēli, tad piedāvā adresi ievadīt vienu reizi un tā tiek pieregistrēta visām izvēlētajām personām. Ja iesniedzējs neatzīmē šo izvēli, tad adresi jāievada katrai izvēlētajai personai atsevišķi.</div>
 
-      <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
-      <div class="pakalp-list" id="dzPersonSelectList"></div>
+      <div id="dzSharedSection" style="display:none;">
+        <div class="addr-fields">
+          <div class="addr-row"><label class="addr-lbl">Valsts <span class="r">*</span></label><select class="addr-inp m" id="dzShared-valsts"></select></div>
+          <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="dzShared-pilseta"></div>
+          <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="dzShared-iela"></div>
+          <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="dzShared-pasta"></div>
+        </div>
+      </div>
 
-      <div id="dzPersonBlocksArea"></div>
+      <div id="dzIndividualSection">
+        <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
+        <div class="pakalp-list" id="dzPersonSelectList"></div>
 
-      <div id="dzSharedSection" style="display:none;"></div>
+        <div id="dzPersonBlocksArea"></div>
+      </div>
 
       <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
@@ -802,18 +811,16 @@ const DZ_PEOPLE = [
   renderDzPersonBlocks();
 })();
 
+document.getElementById('dzShared-valsts').innerHTML = euOptionsHtml();
+
 function toggleDzVisiemBerniem(cb) {
-  const blocksArea = document.getElementById('dzPersonBlocksArea');
+  const individualSection = document.getElementById('dzIndividualSection');
   const sharedSection = document.getElementById('dzSharedSection');
   if (cb.checked) {
-    blocksArea.style.display = 'none';
+    individualSection.style.display = 'none';
     sharedSection.style.display = 'block';
-    if (!sharedSection.dataset.built) {
-      sharedSection.innerHTML = dzAddrEntryHtml('dzShared');
-      sharedSection.dataset.built = '1';
-    }
   } else {
-    blocksArea.style.display = 'block';
+    individualSection.style.display = 'block';
     sharedSection.style.display = 'none';
   }
 }
