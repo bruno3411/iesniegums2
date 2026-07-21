@@ -994,21 +994,18 @@ function toggleNodGroup(group, cb) {
 
 function addDoc(listId) {
   const lst = document.getElementById(listId || 'dlist');
-  const d = document.createElement('div'); d.className='doc-card';
-  d.innerHTML=`
-    <div class="stk-field">
-      <div class="stk-lbl">Dokumenta nosaukums <span class="r">*</span></div>
-      <input type="text" placeholder="Dokumenta nosaukums">
-    </div>
-    <div class="stk-field">
-      <div class="stk-lbl">Apraksts</div>
-      <input type="text" placeholder="Apraksts">
-    </div>
-    <button class="btn-doc-del" type="button" onclick="rmDoc(this)">Dzēst pievienoto dokumentu</button>`;
+  const now = new Date();
+  const dd = String(now.getDate()).padStart(2,'0');
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const yyyy = now.getFullYear();
+  const fname = 'dokuments_' + yyyy + mm + dd + '_' + (lst.children.length + 1) + '.pdf';
+  const d = document.createElement('div');
+  d.className = 'ootis-result-row';
+  d.innerHTML = `Pievienotais dokuments: <strong>${fname}</strong><button type="button" class="btn-doc-del" onclick="rmDoc(this)">Dzēst dokumentu</button>`;
   lst.appendChild(d);
 }
 function rmDoc(btn) {
-  btn.closest('.doc-card').remove();
+  btn.closest('.ootis-result-row').remove();
 }
 function sub() {
   if(!document.getElementById('cb-vecaki').checked || !document.getElementById('cb-patiesa').checked){
