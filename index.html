@@ -248,6 +248,13 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 .pb-radio-opt { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: #222; cursor: pointer; }
 .pb-radio-opt input[type=radio] { width: 18px; height: 18px; accent-color: #8b1a2e; cursor: pointer; flex-shrink: 0; }
 
+/* SIDE-BY-SIDE FIELD PAIR (e.g. sākuma datums / beigu datums) */
+.fr-2col { display: flex; gap: 24px; margin-bottom: 18px; }
+.fr-2col .fr { flex: 1; margin-bottom: 0; }
+@media (max-width: 680px) {
+  .fr-2col { flex-direction: column; gap: 0; }
+}
+
 .ootis-result { font-size: 13.5px; color: #222; padding: 8px 0 4px; }
 .ootis-result strong { color: #8b1a2e; }
 .ootis-doc-btns { display: flex; gap: 10px; margin-top: 10px; }
@@ -418,7 +425,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
         </div>
       </div>
 
-      <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b1"></div>
@@ -445,14 +451,11 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
         </div>
       </div>
 
-      <div id="dzIndividualSection">
-        <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
-        <div class="pakalp-list" id="dzPersonSelectList"></div>
+      <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
+      <div class="pakalp-list" id="dzPersonSelectList"></div>
 
-        <div id="dzPersonBlocksArea"></div>
-      </div>
+      <div id="dzPersonBlocksArea"></div>
 
-      <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b1a"></div>
@@ -515,13 +518,15 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
           </select>
         </div>
       </div>
-      <div class="fr">
-        <div class="fl">sākuma datums <span class="r">*</span></div>
-        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-      </div>
-      <div class="fr">
-        <div class="fl">beigu datums (ja tāds ir)</div>
-        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      <div class="fr-2col">
+        <div class="fr">
+          <div class="fl">sākuma datums <span class="r">*</span></div>
+          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+        </div>
+        <div class="fr">
+          <div class="fl">beigu datums (ja tāds ir)</div>
+          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+        </div>
       </div>
       <div class="fr">
         <div class="fl">bērna vārds/uzvārds</div>
@@ -531,7 +536,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
         </div>
       </div>
 
-      <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b3"></div>
@@ -590,16 +594,17 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
           <div class="hint">(aizpilda, ja ir darba ņēmējs)</div>
         </div>
       </div>
-      <div class="fr">
-        <div class="fl">sākuma datums <span class="r">*</span></div>
-        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-      </div>
-      <div class="fr">
-        <div class="fl">beigu datums (ja tāds ir)</div>
-        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      <div class="fr-2col">
+        <div class="fr">
+          <div class="fl">sākuma datums <span class="r">*</span></div>
+          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+        </div>
+        <div class="fr">
+          <div class="fl">beigu datums (ja tāds ir)</div>
+          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+        </div>
       </div>
 
-      <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b4"></div>
@@ -616,7 +621,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 
       <div id="izPersonBlocksArea"></div>
 
-      <hr class="dv" style="margin:20px 0 16px;">
       <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b5"></div>
@@ -739,6 +743,10 @@ function buildIzPersonBlock(p) {
       <div class="fv"><select class="addr-inp m" id="${p.id}-valsts">${euOptionsHtml()}</select></div>
     </div>
     <div class="fr">
+      <div class="fl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</div>
+      <div class="fv"><input type="text" class="m"></div>
+    </div>
+    <div class="fr">
       <div class="fl">mācību iestāde <span class="r">*</span></div>
       <div class="fv"><input type="text"><div class="hint">(iesniedzējs manuāli ievada izglītības iestādes nosaukumu)</div></div>
     </div>
@@ -765,13 +773,15 @@ function buildIzPersonBlock(p) {
         </select>
       </div>
     </div>
-    <div class="fr">
-      <div class="fl">sākuma datums <span class="r">*</span></div>
-      <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-    </div>
-    <div class="fr">
-      <div class="fl">beigu datums (ja tāds ir)</div>
-      <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+    <div class="fr-2col">
+      <div class="fr">
+        <div class="fl">sākuma datums <span class="r">*</span></div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
+      <div class="fr">
+        <div class="fl">beigu datums (ja tāds ir)</div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
     </div>`;
   return d;
 }
@@ -814,15 +824,9 @@ const DZ_PEOPLE = [
 document.getElementById('dzShared-valsts').innerHTML = euOptionsHtml();
 
 function toggleDzVisiemBerniem(cb) {
-  const individualSection = document.getElementById('dzIndividualSection');
   const sharedSection = document.getElementById('dzSharedSection');
-  if (cb.checked) {
-    individualSection.style.display = 'none';
-    sharedSection.style.display = 'block';
-  } else {
-    individualSection.style.display = 'block';
-    sharedSection.style.display = 'none';
-  }
+  sharedSection.style.display = cb.checked ? 'block' : 'none';
+  renderDzPersonBlocks();
 }
 
 /* Generic address-entry block: Valsts field, then "Reģistrēt manuāli" / "Pieprasīt apliecinājumu tiešsaistē no ES" buttons,
@@ -886,33 +890,36 @@ function buildDzPersonBlock(p) {
   d.className = 'person-block';
   d.id = 'pblock-' + p.id;
   d.dataset.pid = p.id;
-  d.innerHTML = `
-    <div class="person-block-title">${label}</div>
-    <div class="pb-sub-h">Pašreiz reģistrētās adreses:</div>
-    <div class="pb-addr-line">PMLP reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
-    <div class="pb-addr-line" style="margin-bottom:16px;">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
-    <div class="pb-q">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
-    ${dzAddrEntryHtml(p.id)}
-    <hr class="dv pb-block-sep">
-    <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
-    <div id="dlist-${p.id}"></div>
-    <button class="btn-add" type="button" onclick="addDoc('dlist-${p.id}')" style="margin-top:4px;">+ Pievienot dokumentu</button>`;
+  const sharedMode = document.getElementById('cb-visiem-berniem').checked;
+  if (sharedMode) {
+    d.innerHTML = `
+      <div class="person-block-title">${label}</div>
+      <div class="pb-sub-h">Pašreiz reģistrētās adreses:</div>
+      <div class="pb-addr-line">PMLP reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
+      <div class="pb-addr-line">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>`;
+  } else {
+    d.innerHTML = `
+      <div class="person-block-title">${label}</div>
+      <div class="pb-sub-h">Pašreiz reģistrētās adreses:</div>
+      <div class="pb-addr-line">PMLP reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
+      <div class="pb-addr-line" style="margin-bottom:16px;">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
+      <div class="pb-q">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
+      ${dzAddrEntryHtml(p.id)}
+      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div id="dlist-${p.id}"></div>
+      <button class="btn-add" type="button" onclick="addDoc('dlist-${p.id}')" style="margin-top:4px;">+ Pievienot dokumentu</button>`;
+  }
   return d;
 }
 
 function renderDzPersonBlocks() {
   const checked = Array.from(document.querySelectorAll('.dz-person-cb')).filter(cb => cb.checked);
   const area = document.getElementById('dzPersonBlocksArea');
-  const checkedIds = new Set(checked.map(cb => cb.dataset.pid));
-  Array.from(area.children).forEach(child => {
-    if (!checkedIds.has(child.dataset.pid)) child.remove();
-  });
+  area.innerHTML = '';
   checked.forEach(cb => {
     const pid = cb.dataset.pid;
-    if (!document.getElementById('pblock-' + pid)) {
-      const person = DZ_PEOPLE.find(p => p.id === pid);
-      if (person) area.appendChild(buildDzPersonBlock(person));
-    }
+    const person = DZ_PEOPLE.find(p => p.id === pid);
+    if (person) area.appendChild(buildDzPersonBlock(person));
   });
 }
 
