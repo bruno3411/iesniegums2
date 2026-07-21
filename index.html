@@ -427,7 +427,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
         </div>
       </div>
 
-      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b1"></div>
       <button class="btn-add" type="button" onclick="addDoc('dlist-b1')" style="margin-top:4px;">+ Pievienot dokumentu</button>
@@ -458,7 +458,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 
       <div id="dzPersonBlocksArea"></div>
 
-      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b1a"></div>
       <button class="btn-add" type="button" onclick="addDoc('dlist-b1a')" style="margin-top:4px;">+ Pievienot dokumentu</button>
@@ -538,7 +538,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
         </div>
       </div>
 
-      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b3"></div>
       <button class="btn-add" type="button" onclick="addDoc('dlist-b3')" style="margin-top:4px;">+ Pievienot dokumentu</button>
@@ -627,7 +627,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
         </div>
       </div>
 
-      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b4"></div>
       <button class="btn-add" type="button" onclick="addDoc('dlist-b4')" style="margin-top:4px;">+ Pievienot dokumentu</button>
@@ -643,7 +643,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 
       <div id="izPersonBlocksArea"></div>
 
-      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
+      <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
       <div id="dlist-b5"></div>
       <button class="btn-add" type="button" onclick="addDoc('dlist-b5')" style="margin-top:4px;">+ Pievienot dokumentu</button>
@@ -869,6 +869,10 @@ function dzAddrEntryHtml(prefix) {
       <div class="fl">Valsts <span class="r">*</span></div>
       <div class="fv"><select class="addr-inp m" id="${prefix}-valsts" onchange="dzValstsChanged('${prefix}')">${worldOptionsHtml()}</select></div>
     </div>
+    <div class="fr">
+      <div class="fl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</div>
+      <div class="fv"><input type="text" class="m" id="${prefix}-idnr"></div>
+    </div>
     <div class="addr-mode-btns" id="${prefix}-btns" style="display:none;">
       <button type="button" class="btn-addr-manual" onclick="dzShowManual('${prefix}')">Reģistrēt manuāli</button>
       <button type="button" class="btn-addr-ootis" onclick="dzRequestOotis('${prefix}', this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
@@ -956,10 +960,7 @@ function buildDzPersonBlock(p) {
       <div class="pb-addr-line">PMLP reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
       <div class="pb-addr-line" style="margin-bottom:16px;">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
       <div class="pb-q">Jaunā dzīvesvietas adrese ārvalstī <span class="r">*</span></div>
-      ${dzAddrEntryHtml(p.id)}
-      <div class="sec-h" style="font-size:13.5px;">Iesniegumam pievienoju šādus dokumentus</div>
-      <div id="dlist-${p.id}"></div>
-      <button class="btn-add" type="button" onclick="addDoc('dlist-${p.id}')" style="margin-top:4px;">+ Pievienot dokumentu</button>`;
+      ${dzAddrEntryHtml(p.id)}`;
   }
   return d;
 }
