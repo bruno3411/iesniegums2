@@ -587,21 +587,41 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
           </div>
         </div>
       </div>
-      <div class="fr">
-        <div class="fl">darba devēja nosaukums</div>
-        <div class="fv">
-          <input type="text">
-          <div class="hint">(aizpilda, ja ir darba ņēmējs)</div>
+      <div class="check-opt" style="margin-top:6px;">
+        <input type="checkbox" id="cb-pasnodarbinatais" onchange="toggleNodGroup('pasnod', this)">
+        <label for="cb-pasnodarbinatais">Esmu pašnodarbinātais</label>
+      </div>
+      <div id="pasnodFields" style="display:none;margin-top:4px;">
+        <div class="fr-2col">
+          <div class="fr">
+            <div class="fl">sākuma datums <span class="r">*</span></div>
+            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+          </div>
+          <div class="fr">
+            <div class="fl">beigu datums (ja tāds ir)</div>
+            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+          </div>
         </div>
       </div>
-      <div class="fr-2col">
+
+      <div class="check-opt">
+        <input type="checkbox" id="cb-darba-nemejs" onchange="toggleNodGroup('darbin', this)">
+        <label for="cb-darba-nemejs">Esmu darba ņēmējs</label>
+      </div>
+      <div id="darbinFields" style="display:none;margin-top:4px;">
         <div class="fr">
-          <div class="fl">sākuma datums <span class="r">*</span></div>
-          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+          <div class="fl">darba devēja nosaukums <span class="r">*</span></div>
+          <div class="fv"><input type="text"></div>
         </div>
-        <div class="fr">
-          <div class="fl">beigu datums (ja tāds ir)</div>
-          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+        <div class="fr-2col">
+          <div class="fr">
+            <div class="fl">sākuma datums <span class="r">*</span></div>
+            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+          </div>
+          <div class="fr">
+            <div class="fl">beigu datums (ja tāds ir)</div>
+            <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+          </div>
         </div>
       </div>
 
@@ -932,6 +952,11 @@ function toggleAcc(el) {
 
 function apskatitDokumentu(btn) {
   alert('Dokumenta priekšskatījums tiktu atvērts jaunā logā.');
+}
+
+function toggleNodGroup(group, cb) {
+  const fields = document.getElementById(group === 'pasnod' ? 'pasnodFields' : 'darbinFields');
+  fields.style.display = cb.checked ? 'block' : 'none';
 }
 
 function addDoc(listId) {
