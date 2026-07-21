@@ -257,6 +257,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
 
 .ootis-result { font-size: 13.5px; color: #222; padding: 8px 0 4px; }
 .ootis-result strong { color: #8b1a2e; }
+.ootis-result-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13.5px; color: #222; padding: 8px 0 4px; }
+.ootis-result-row strong { color: #8b1a2e; }
 .ootis-doc-btns { display: flex; gap: 10px; margin-top: 10px; }
 .btn-doc-view, .btn-doc-del { padding: 7px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit; border: 1.5px solid #8b1a2e; background: #fff; color: #8b1a2e; }
 .btn-doc-view:hover, .btn-doc-del:hover { background: #fdf5f6; }
@@ -713,6 +715,15 @@ function euOptionsHtml() {
   return opts;
 }
 
+/* Full world country list (Latvian names) used for Dzīvesvieta address entry */
+const WORLD_VALSTIS = ["Afganistāna","Albānija","Alžīrija","Andora","Angola","Antigva un Barbuda","Apvienotie Arābu Emirāti","Argentīna","Armēnija","Austrālija","Austrija","Azerbaidžāna","Bahamu Salas","Bahreina","Bangladeša","Barbadosa","Beliza","Beļģija","Benina","Baltkrievija","Bolīvija","Bosnija un Hercegovina","Botsvāna","Brazīlija","Bruneja","Bulgārija","Burkinafaso","Burundi","Butāna","Čada","Čehija","Čīle","Dānija","Dominika","Dominikānas Republika","Džibutija","Ekvadora","Ekvatoriālā Gvineja","Eritreja","Esvatini","Etiopija","Fidži","Filipīnas","Francija","Gabona","Gajāna","Gambija","Gana","Grenāda","Grieķija","Gruzija","Gvatemala","Gvineja","Gvineja-Bisava","Haiti","Hondurasa","Horvātija","Igaunija","Indija","Indonēzija","Irāka","Irāna","Īrija","Islande","Izraēla","Itālija","Jamaika","Japāna","Jaunzēlande","Jemena","Jordānija","Kaboverde","Kambodža","Kamerūna","Kanāda","Katāra","Kazahstāna","Kenija","Kipra","Kirgizstāna","Kiribati","Kolumbija","Komoru Salas","Kongo","Kongo Demokrātiskā Republika","Kostarika","Kotdivuāra","Kuba","Kuveita","Ķīna","Laosa","Latvija","Lesoto","Libāna","Libērija","Lībija","Lietuva","Lihtenšteina","Luksemburga","Madagaskara","Malaizija","Malāvija","Maldīvija","Mali","Malta","Maroka","Māršala Salas","Mauritānija","Maurīcija","Meksika","Melnkalne","Mikronēzija","Moldova","Monako","Mongolija","Mozambika","Mjanma","Namībija","Nauru","Nepāla","Nīderlande","Nikaragva","Nigēra","Nigērija","Norvēģija","Omāna","Pakistāna","Palau","Panama","Papua-Jaungvineja","Paragvaja","Peru","Polija","Portugāle","Krievija","Ruanda","Rumānija","Salvadora","Samoa","Sanmarīno","Santome un Prinsipi","Saūda Arābija","Senegāla","Serbija","Seišelu Salas","Singapūra","Sīrija","Sjerraleone","Slovākija","Slovēnija","Somālija","Somija","Spānija","Šrilanka","Sudāna","Surinama","Svētais Kitts un Nevisa","Svētais Vinsents un Grenadīnas","Svētā Lūcija","Šveice","Tadžikistāna","Taivāna","Taizeme","Tanzānija","Togo","Tonga","Trinidāda un Tobāgo","Tunisija","Turcija","Turkmenistāna","Tuvalu","Uganda","Ukraina","Ungārija","Urugvaja","Uzbekistāna","Vanuatu","Vatikāns","Venecuēla","Vjetnama","Vācija","Zambija","Zimbabve","Zviedrija"];
+const EU_EEZ_SET = new Set(["Austrija","Beļģija","Bulgārija","Čehija","Dānija","Igaunija","Somija","Francija","Vācija","Grieķija","Horvātija","Ungārija","Īrija","Itālija","Kipra","Latvija","Lietuva","Luksemburga","Malta","Nīderlande","Polija","Portugāle","Rumānija","Slovākija","Slovēnija","Spānija","Zviedrija","Islande","Lihtenšteina","Norvēģija"]);
+function worldOptionsHtml() {
+  let opts = '<option value="" disabled selected>Izvēlieties valsti</option>';
+  WORLD_VALSTIS.slice().sort((a,b) => a.localeCompare(b, 'lv')).forEach(v => { opts += '<option value="'+v+'">'+v+'</option>'; });
+  return opts;
+}
+
 /* SELECTION -> CARD VISIBILITY */
 function updateVisibility() {
   const map = {
@@ -849,24 +860,46 @@ function toggleDzVisiemBerniem(cb) {
   renderDzPersonBlocks();
 }
 
-/* Generic address-entry block: Valsts field, then "Reģistrēt manuāli" / "Pieprasīt apliecinājumu tiešsaistē no ES" buttons,
-   then (only in manual mode) Pilsēta/reģions, Iela mājas Nr., Pasta indekss. */
+/* Address-entry block: initially only "Valsts" is shown. Once a country is chosen —
+   EU/EEZ country -> show "Reģistrēt manuāli" / "Pieprasīt apliecinājumu tiešsaistē no ES" buttons;
+   non-EU/EEZ country -> skip the buttons, show all address fields immediately. */
 function dzAddrEntryHtml(prefix) {
   return `
     <div class="fr">
       <div class="fl">Valsts <span class="r">*</span></div>
-      <div class="fv"><select class="addr-inp m" id="${prefix}-valsts">${euOptionsHtml()}</select></div>
+      <div class="fv"><select class="addr-inp m" id="${prefix}-valsts" onchange="dzValstsChanged('${prefix}')">${worldOptionsHtml()}</select></div>
     </div>
-    <div class="addr-mode-btns" id="${prefix}-btns">
-      <button type="button" class="btn-addr-manual selected" onclick="dzShowManual('${prefix}')">Reģistrēt manuāli</button>
+    <div class="addr-mode-btns" id="${prefix}-btns" style="display:none;">
+      <button type="button" class="btn-addr-manual" onclick="dzShowManual('${prefix}')">Reģistrēt manuāli</button>
       <button type="button" class="btn-addr-ootis" onclick="dzRequestOotis('${prefix}', this)">Pieprasīt apliecinājumu tiešsaistē no ES</button>
     </div>
-    <div id="${prefix}-manualFields">
+    <div id="${prefix}-manualFields" style="display:none;">
       <div class="addr-row"><label class="addr-lbl">Pilsēta/reģions <span class="r">*</span></label><input type="text" class="addr-inp" id="${prefix}-pilseta"></div>
       <div class="addr-row"><label class="addr-lbl">Iela, mājas Nr. <span class="r">*</span></label><input type="text" class="addr-inp" id="${prefix}-iela"></div>
       <div class="addr-row"><label class="addr-lbl">Pasta indekss</label><input type="text" class="addr-inp n" id="${prefix}-pasta"></div>
     </div>
     <div id="${prefix}-ootisResult"></div>`;
+}
+
+function dzValstsChanged(prefix) {
+  const valsts = document.getElementById(prefix + '-valsts').value;
+  const btns = document.getElementById(prefix + '-btns');
+  const manualFields = document.getElementById(prefix + '-manualFields');
+  const ootisResult = document.getElementById(prefix + '-ootisResult');
+  ootisResult.innerHTML = '';
+  btns.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+  if (!valsts) {
+    btns.style.display = 'none';
+    manualFields.style.display = 'none';
+    return;
+  }
+  if (EU_EEZ_SET.has(valsts)) {
+    btns.style.display = 'flex';
+    manualFields.style.display = 'none';
+  } else {
+    btns.style.display = 'none';
+    manualFields.style.display = 'block';
+  }
 }
 
 function dzShowManual(prefix) {
@@ -891,17 +924,16 @@ function dzRequestOotis(prefix, btn) {
     const mm = String(now.getMonth()+1).padStart(2,'0');
     const yyyy = now.getFullYear();
     const fname = 'ootis_' + yyyy + mm + dd + '.pdf';
-    resultDiv.innerHTML = '<div class="ootis-result">Saņemtais dokuments no OOTIS: <strong>' + fname + '</strong>' +
-      '<div class="ootis-doc-btns">' +
-      '<button type="button" class="btn-doc-view" onclick="apskatitDokumentu(this)">Apskatīt dokumentu</button>' +
+    resultDiv.innerHTML = '<div class="ootis-result-row">Saņemtais dokuments no OOTIS: <strong>' + fname + '</strong>' +
       '<button type="button" class="btn-doc-del" onclick="dzDeleteOotisDoc(\'' + prefix + '\')">Dzēst dokumentu</button>' +
-      '</div></div>';
+      '</div>';
   }, 800);
 }
 
 function dzDeleteOotisDoc(prefix) {
   document.getElementById(prefix + '-ootisResult').innerHTML = '';
-  dzShowManual(prefix);
+  const btns = document.getElementById(prefix + '-btns');
+  btns.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
 }
 
 function buildDzPersonBlock(p) {
