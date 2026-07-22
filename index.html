@@ -426,11 +426,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
           <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Norādiet konta numuru starptautiskajā formātā (IBAN), uz kuru vēlaties saņemt pakalpojumu.</div>
         </div>
       </div>
-
-      <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
-      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
-      <div id="dlist-b1"></div>
-      <button class="btn-add" type="button" onclick="addDoc('dlist-b1')" style="margin-top:4px;">+ Pievienot dokumentu</button>
     </div>
 
     <!-- Dzīvesvieta (apvienots: pati iesniedzēja + bērni) -->
@@ -468,75 +463,11 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
     <div class="chg-card" id="card-soc">
       <div class="chg-card-title">Sociālie maksājumi</div>
       <div class="chg-card-desc">Citas valsts pensijas/pabalstu/atlīdzības saņemšanu. Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
-      <div class="fr">
-        <div class="fl">valsts <span class="r">*</span></div>
-        <div class="fv">
-          <div class="addr-fields" id="addr3">
-            <div class="addr-row">
-              <select class="addr-inp m">
-<option value="" disabled selected>Izvēlieties valsti</option>
-                <option value="Austrija">Austrija</option>
-                <option value="Beļģija">Beļģija</option>
-                <option value="Bulgārija">Bulgārija</option>
-                <option value="Čehija">Čehija</option>
-                <option value="Dānija">Dānija</option>
-                <option value="Igaunija">Igaunija</option>
-                <option value="Somija">Somija</option>
-                <option value="Francija">Francija</option>
-                <option value="Vācija">Vācija</option>
-                <option value="Grieķija">Grieķija</option>
-                <option value="Ungārija">Ungārija</option>
-                <option value="Īrija">Īrija</option>
-                <option value="Itālija">Itālija</option>
-                <option value="Kipra">Kipra</option>
-                <option value="Lietuva">Lietuva</option>
-                <option value="Luksemburga">Luksemburga</option>
-                <option value="Malta">Malta</option>
-                <option value="Nīderlande">Nīderlande</option>
-                <option value="Polija">Polija</option>
-                <option value="Portugāle">Portugāle</option>
-                <option value="Rumānija">Rumānija</option>
-                <option value="Slovākija">Slovākija</option>
-                <option value="Slovēnija">Slovēnija</option>
-                <option value="Spānija">Spānija</option>
-                <option value="Zviedrija">Zviedrija</option>
-              </select>
-            </div>
-            <div class="addr-row">
-              <label class="addr-lbl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</label>
-              <input type="text" class="addr-inp m">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="fr">
-        <div class="fl">pakalpojuma veids <span class="r">*</span></div>
-        <div class="fv">
-          <select>
-            <option value="" disabled selected>Izvēlieties</option>
-            <option value="pensija">Pensija</option>
-            <option value="atlidziba">Atlīdzība</option>
-            <option value="pabalsts">Pabalsts</option>
-          </select>
-        </div>
-      </div>
-      <div class="fr-2col">
-        <div class="fr">
-          <div class="fl">sākuma datums <span class="r">*</span></div>
-          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-        </div>
-        <div class="fr">
-          <div class="fl">beigu datums (ja tāds ir)</div>
-          <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
-        </div>
-      </div>
-      <div class="fr">
-        <div class="fl">bērna vārds/uzvārds</div>
-        <div class="fv">
-          <input type="text" class="m">
-          <div class="hint">(ja citā valstī saņem pabalstus vai pensiju par bērnu)</div>
-        </div>
-      </div>
+
+      <div class="stk-lbl" style="margin-bottom:12px;">Par kurām personām veiksiet izmaiņas? <span class="r">*</span></div>
+      <div class="pakalp-list" id="socPersonSelectList"></div>
+
+      <div id="socPersonBlocksArea"></div>
 
       <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
       <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
@@ -642,11 +573,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; color: #1a1a
       <div class="pakalp-list" id="izPersonSelectList"></div>
 
       <div id="izPersonBlocksArea"></div>
-
-      <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
-      <div class="hint" style="font-style:normal;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;border:none;background:#24303d;color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">i</span>Jāpievieno informācijas izmaiņas apliecinoši dokumenti, ja tādi ir.</div>
-      <div id="dlist-b5"></div>
-      <button class="btn-add" type="button" onclick="addDoc('dlist-b5')" style="margin-top:4px;">+ Pievienot dokumentu</button>
     </div>
 
     </div><!-- /blocksArea -->
@@ -813,7 +739,10 @@ function buildIzPersonBlock(p) {
         <div class="fl">beigu datums (ja tāds ir)</div>
         <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
       </div>
-    </div>`;
+    </div>
+    <div class="sec-h" style="font-size:13.5px;margin-top:22px;">Iesniegumam pievienoju šādus dokumentus</div>
+    <div id="dlist-${p.id}"></div>
+    <button class="btn-add" type="button" onclick="addDoc('dlist-${p.id}')" style="margin-top:4px;">+ Pievienot dokumentu</button>`;
   return d;
 }
 
@@ -829,6 +758,81 @@ function renderIzPersonBlocks() {
     if (!document.getElementById('izpblock-' + pid)) {
       const person = IZ_PEOPLE.find(p => p.id === pid);
       if (person) area.appendChild(buildIzPersonBlock(person));
+    }
+  });
+}
+
+const SOC_PEOPLE = [
+  { id: 'soc-self', label: 'Jānis Bērziņš (par sevi)', selfPerson: true },
+  { id: 'soc-c0', pk: '030512-12345', vards: 'Jānis', uzvards: 'Bērziņš' },
+  { id: 'soc-c1', pk: '150819-54321', vards: 'Anna', uzvards: 'Kalniņa' },
+  { id: 'soc-c2', pk: '220310-98765', vards: 'Mārtiņš', uzvards: 'Ozoliņš' }
+];
+
+(function renderSocPersonSelect(){
+  const wrap = document.getElementById('socPersonSelectList');
+  SOC_PEOPLE.forEach(p => {
+    const label = p.selfPerson ? p.label : `${p.vards} ${p.uzvards} (personas kods: ${p.pk})`;
+    const lbl = document.createElement('label');
+    lbl.className = 'pakalp-opt';
+    lbl.innerHTML = `<input type="checkbox" class="soc-person-cb" data-pid="${p.id}" onchange="renderSocPersonBlocks()" ${p.selfPerson ? 'checked' : ''}> ${label}`;
+    wrap.appendChild(lbl);
+  });
+  renderSocPersonBlocks();
+})();
+
+function buildSocPersonBlock(p) {
+  const label = p.selfPerson ? p.label : `${p.vards} ${p.uzvards} (personas kods: ${p.pk})`;
+  const d = document.createElement('div');
+  d.className = 'person-block';
+  d.id = 'socpblock-' + p.id;
+  d.dataset.pid = p.id;
+  d.innerHTML = `
+    <div class="person-block-title">${label}</div>
+    <div class="fr">
+      <div class="fl">valsts <span class="r">*</span></div>
+      <div class="fv"><select class="addr-inp m" id="${p.id}-valsts">${euOptionsHtml()}</select></div>
+    </div>
+    <div class="fr">
+      <div class="fl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</div>
+      <div class="fv"><input type="text" class="m"></div>
+    </div>
+    <div class="fr">
+      <div class="fl">pakalpojuma veids <span class="r">*</span></div>
+      <div class="fv">
+        <select>
+          <option value="" disabled selected>Izvēlieties</option>
+          <option value="pensija">Pensija</option>
+          <option value="atlidziba">Atlīdzība</option>
+          <option value="pabalsts">Pabalsts</option>
+        </select>
+      </div>
+    </div>
+    <div class="fr-2col">
+      <div class="fr">
+        <div class="fl">sākuma datums <span class="r">*</span></div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
+      <div class="fr">
+        <div class="fl">beigu datums (ja tāds ir)</div>
+        <div class="fv"><div class="dr"><input type="text" placeholder="dd.mm.gggg." class="n"><span class="cal">📅</span></div></div>
+      </div>
+    </div>`;
+  return d;
+}
+
+function renderSocPersonBlocks() {
+  const checked = Array.from(document.querySelectorAll('.soc-person-cb')).filter(cb => cb.checked);
+  const area = document.getElementById('socPersonBlocksArea');
+  const checkedIds = new Set(checked.map(cb => cb.dataset.pid));
+  Array.from(area.children).forEach(child => {
+    if (!checkedIds.has(child.dataset.pid)) child.remove();
+  });
+  checked.forEach(cb => {
+    const pid = cb.dataset.pid;
+    if (!document.getElementById('socpblock-' + pid)) {
+      const person = SOC_PEOPLE.find(p => p.id === pid);
+      if (person) area.appendChild(buildSocPersonBlock(person));
     }
   });
 }
@@ -952,7 +956,11 @@ function buildDzPersonBlock(p) {
       <div class="person-block-title">${label}</div>
       <div class="pb-sub-h">Pašreiz reģistrētās adreses:</div>
       <div class="pb-addr-line">PMLP reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
-      <div class="pb-addr-line">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>`;
+      <div class="pb-addr-line" style="margin-bottom:16px;">VSAA reģistrētā dzīvesvietas adrese: <strong>—</strong></div>
+      <div class="fr">
+        <div class="fl">Citā valstī piešķirtais identifikācijas/sociālās apdrošināšanas numurs</div>
+        <div class="fv"><input type="text" class="m"></div>
+      </div>`;
   } else {
     d.innerHTML = `
       <div class="person-block-title">${label}</div>
